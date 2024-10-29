@@ -111,12 +111,14 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   textStyle: {
-    fontSize: 48,  // Increase this value to make the text bigger
+    fontSize: 38,  // Increase this value to make the text bigger
     fontWeight: 'bold',
     textAlign: 'center',
+    fontFamily: 'Jaro', // Add the Jaro font family
+    marginTop: 20, 
   },
   title: {
-    fontSize: 36,
+    fontSize: 38,
     fontWeight: 'bold',
     color: 'transparent', // Hide the original text color
     backgroundClip: 'text', // Not directly available in RN, but setting color to transparent helps
@@ -151,7 +153,12 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   registerButton: {
-    backgroundColor: '#555', // Different color for register button if desired
+    backgroundColor: '#000',
+    paddingVertical: 12,
+    paddingHorizontal: 25,
+    borderRadius: 8,
+    width: '100%',
+    alignItems: 'center',
     marginVertical: 10,
   },
   buttonText: {
