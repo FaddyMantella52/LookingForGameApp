@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Alert, TouchableOpacity, ImageBackground } from 'react-native';
-import { createUserWithEmailAndPassword } from "firebase/auth"; 
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth"; 
 import { auth } from '../firebase';  // Import your Firebase auth instance
 
 export default function RegisterScreen({ navigation }) {
@@ -20,8 +20,16 @@ export default function RegisterScreen({ navigation }) {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        Alert.alert("Success", "Registered successfully!");
-        navigation.navigate("LogInScreen");  
+        
+        // Send email verification
+        sendEmailVerification(user)
+          .then(() => {
+            Alert.alert("Success", "Registered successfully! Please check your email for verification.");
+            navigation.navigate("LogInScreen");
+          })
+          .catch((error) => {
+            Alert.alert("Error", error.message);
+          });
       })
       .catch((error) => {
         Alert.alert("Error", error.message);
