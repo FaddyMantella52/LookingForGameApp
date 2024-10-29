@@ -1,6 +1,5 @@
-// LoginScreen.js
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Alert, ImageBackground, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import MaskedView from "@react-native-masked-view/masked-view";
 import { auth } from '../firebase';  // Import auth from firebase.js
@@ -11,28 +10,69 @@ export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
+    if (!email || !password) {
+      Alert.alert("Oops!", "Please fill in all fields.");
+      return;
+    }
+
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Login successful
         const user = userCredential.user;
-        Alert.alert("Success", "Logged in successfully!");
-        navigation.navigate("HomeScreen");  // Adjust to your app's home screen
+        Alert.alert("Success", "Welcome back!");
+        navigation.navigate("HomeScreen");
       })
       .catch((error) => {
-        Alert.alert("Error", error.message);
+        const errorCode = error.code;
+        let errorMessage;
+
+        switch (errorCode) {
+          case 'auth/wrong-password':
+            errorMessage = "Oops! The password you entered is incorrect.";
+            break;
+          case 'auth/user-not-found':
+            errorMessage = "No user found with this email. Please check again.";
+            break;
+          case 'auth/invalid-email':
+            errorMessage = "The email address is badly formatted.";
+            break;
+          default:
+            errorMessage = "Something went wrong. Please try again.";
+            break;
+        }
+
+        Alert.alert("Error", errorMessage);
       });
   };
 
   const handleRegister = () => {
+    if (!email || !password) {
+      Alert.alert("Oops!", "Please fill in all fields.");
+      return;
+    }
+
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Registration successful
         const user = userCredential.user;
-        Alert.alert("Success", "Registered successfully!");
-        navigation.navigate("HomeScreen");  // Adjust to your app's home screen
+        Alert.alert("Success", "Registered successfully! Welcome!");
+        navigation.navigate("HomeScreen");
       })
       .catch((error) => {
-        Alert.alert("Error", error.message);
+        const errorCode = error.code;
+        let errorMessage;
+
+        switch (errorCode) {
+          case 'auth/wrong-password':
+            errorMessage = "Oops! The password you entered is incorrect.";
+            break;
+          case 'auth/invalid-email':
+            errorMessage = "The email address format is invalid.";
+            break;
+          default:
+            errorMessage = "Something went wrong. Please try again.";
+            break;
+        }
+
+        Alert.alert("Error", errorMessage);
       });
   };
 
@@ -52,7 +92,7 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <ImageBackground 
-      source={{ uri: 'https://cdn.discordapp.com/attachments/721734208984187022/1298216695235612732/pngtree-background-of-monitor-computer-with-online-game-streaming-desktop-image_15734081.png?ex=672153c3&is=67200243&hm=a9a0fbb2293e700e93f98f7b4afdb76910a52cb046390dd202de02cbc5af65e4&' }}  // Replace with your background image URL or local path
+      source={{ uri: 'https://cdn.discordapp.com/attachments/721734208984187022/1298216695235612732/pngtree-background-of-monitor-computer-with-online-game-streaming-desktop-image_15734081.png?ex=672153c3&is=67200243&hm=a9a0fbb2293e700e93f98f7b4afdb76910a52cb046390dd202de02cbc5af65e4&' }} 
       style={styles.background}
     >
       <View style={styles.container}>
@@ -111,7 +151,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   textStyle: {
-    fontSize: 38,  // Increase this value to make the text bigger
+    fontSize: 38,
     fontWeight: 'bold',
     textAlign: 'center',
     fontFamily: 'Jaro', // Add the Jaro font family
