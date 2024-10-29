@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Alert, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Alert, ImageBackground, Image, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import MaskedView from "@react-native-masked-view/masked-view";
 import { auth } from '../firebase';  // Import auth from firebase.js
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth"; 
+//import titleImage from "../assets/TitleWithNeonEffect.png"; 
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -95,9 +96,12 @@ export default function LoginScreen({ navigation }) {
       source={{ uri: 'https://cdn.discordapp.com/attachments/721734208984187022/1298216695235612732/pngtree-background-of-monitor-computer-with-online-game-streaming-desktop-image_15734081.png?ex=672153c3&is=67200243&hm=a9a0fbb2293e700e93f98f7b4afdb76910a52cb046390dd202de02cbc5af65e4&' }} 
       style={styles.background}
     >
+    
       <View style={styles.container}>
-        <GradientText style={styles.textStyle}>TeamFinder</GradientText>
-
+        <Image 
+          source={{ uri: 'https://cdn.discordapp.com/attachments/315532588712329216/1300923005479944192/title_with_neon_effect.png?ex=67229a76&is=672148f6&hm=e39dd1aafc70f258557dac81179ceb379b929eba30ee0ab9ccf48b68cd2a217b&' }} // Replace with your title image URL
+          style={styles.titleImage} 
+        />
         <View style={styles.form}>
           <TextInput
             placeholder="Email"
@@ -126,8 +130,8 @@ export default function LoginScreen({ navigation }) {
             <Text style={styles.forgotPassword}>Forgot password?</Text>
           </TouchableOpacity>
         </View>
-      </View>
-    </ImageBackground>
+        </View>
+     </ImageBackground>
   );
 }
 
@@ -157,12 +161,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Jaro', // Add the Jaro font family
     marginTop: 20, 
   },
-  title: {
-    fontSize: 38,
-    fontWeight: 'bold',
-    color: 'transparent', // Hide the original text color
-    backgroundClip: 'text', // Not directly available in RN, but setting color to transparent helps
-    backgroundColor: 'transparent',
+  titleImage: {
+    width: 360,  // Adjust width to your preference
+    height: 238,  // Adjust height proportionally to your image
+    marginBottom: 0,
+    resizeMode: 'cover',
   },
   form: {
     width: '100%',
