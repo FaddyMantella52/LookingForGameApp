@@ -6,6 +6,7 @@ import { auth } from '../firebase';  // Import auth from firebase.js
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth"; 
 import titleImage from "../assets/TitleWithNeonEffect.png"; 
 import backgroundImage from "../assets/BackGroundImage.png";
+import { StatusBar } from 'expo-status-bar';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -121,6 +122,7 @@ export default function LoginScreen({ navigation }) {
             secureTextEntry
             placeholderTextColor="#aaa"
           />
+          <StatusBar style="light" /> 
           <TouchableOpacity onPress={handleLogin} style={styles.button}>
             <Text style={styles.buttonText}>Sign In</Text>
           </TouchableOpacity>
@@ -172,7 +174,8 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 20,
     paddingVertical: 30,
-    backgroundColor: '#ffffffcc', // Slightly transparent white background
+    backgroundColor: '#A82C2E',
+    opacity: 0.75,
     borderRadius: 10,
     alignItems: 'center',
   },
