@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Alert, TouchableOpacity, ImageBackground } from 'react-native';
 import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth"; 
 import { auth } from '../firebase';  // Import your Firebase auth instance
+import backgroundImage from "../assets/BackGroundImage.png";
 
 export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -38,12 +39,12 @@ export default function RegisterScreen({ navigation }) {
 
   return (
     <ImageBackground 
-      source={{ uri: 'https://cdn.discordapp.com/attachments/721734208984187022/1298216695235612732/pngtree-background-of-monitor-computer-with-online-game-streaming-desktop-image_15734081.png?ex=672153c3&is=67200243&hm=a9a0fbb2293e700e93f98f7b4afdb76910a52cb046390dd202de02cbc5af65e4&' }} // Replace with your background image URL
+      source={backgroundImage}
       style={styles.background} // Style for the background
     >
       <View style={styles.container}>
-        <Text style={styles.title}>Register</Text>
         <View style={styles.inputContainer}>
+        <Text style={styles.title}>Register</Text>
           <TextInput
             placeholder="Username"
             value={username}
@@ -79,10 +80,10 @@ export default function RegisterScreen({ navigation }) {
           <TouchableOpacity onPress={handleRegister} style={styles.button}>
             <Text style={styles.buttonText}>Create account</Text>
           </TouchableOpacity>
-        </View>
-        <TouchableOpacity onPress={() => navigation.navigate("LogInScreen")}>
+          <TouchableOpacity onPress={() => navigation.navigate("LogInScreen")}>
           <Text style={styles.link}>Already have an account? Login</Text>
         </TouchableOpacity>
+        </View>
       </View>
     </ImageBackground>
   );
@@ -101,17 +102,20 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   inputContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.8)', // White background with transparency
+    backgroundColor: '#A82C2E',
+    opacity: 0.75,
     borderRadius: 10,
     padding: 20,
     width: '100%',
     maxWidth: 400, // Optional: Max width for better layout on larger screens
     marginBottom: 20,
+    alignItems: 'center',
   },
   title: {
     fontSize: 32,
+    fontWeight: 'bold',
+    color: '#fff',
     marginBottom: 20,
-    color: '#fff', // Adjust text color for visibility against the background
   },
   input: {
     width: '100%',
@@ -139,7 +143,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   link: {
-    color: '#fff', // Adjust text color for visibility
+    color: '#000',
     textDecorationLine: 'underline',
     marginTop: 10,
   },
