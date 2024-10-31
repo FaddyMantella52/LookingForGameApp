@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 20,
     paddingVertical: 30,
-    backgroundColor: '#ffffffcc', // Slightly transparent white background
+    backgroundColor: '#A82C2E',
+    opacity: 0.75,
     borderRadius: 10,
     alignItems: 'center',
   },
@@ -113,7 +114,8 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 20,
     paddingVertical: 30,
-    backgroundColor: '#ffffffcc',
+    backgroundColor: '#A82C2E',
+    opacity: 0.75,
     borderRadius: 10,
     alignItems: 'center',
   },
@@ -126,7 +128,7 @@ const styles = StyleSheet.create({
   },
   subMessage: {
     fontSize: 16,
-    color: '#555',
+    color: '#000',
     marginBottom: 20,
     textAlign: 'center',
   },

@@ -137,7 +137,7 @@ export default function LoginScreen({ navigation }) {
      </ImageBackground>
   );
 }
-
+//Linia 125 este pentru a face icon urile din bara de sus la telefon albe
 const styles = StyleSheet.create({
   background: {
     flex: 1,
