@@ -47,37 +47,7 @@ export default function LoginScreen({ navigation }) {
       });
   };
 
-  const handleRegister = () => {
-    if (!email || !password) {
-      Alert.alert("Oops!", "Please fill in all fields.");
-      return;
-    }
-
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        Alert.alert("Success", "Registered successfully! Welcome!");
-        navigation.navigate("HomeScreen");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        let errorMessage;
-
-        switch (errorCode) {
-          case 'auth/wrong-password':
-            errorMessage = "Oops! The password you entered is incorrect.";
-            break;
-          case 'auth/invalid-email':
-            errorMessage = "The email address format is invalid.";
-            break;
-          default:
-            errorMessage = "Something went wrong. Please try again.";
-            break;
-        }
-
-        Alert.alert("Error", errorMessage);
-      });
-  };
+  //era un handle register pus degeaba
 
   const GradientText = (props) => {
     return (
@@ -138,6 +108,7 @@ export default function LoginScreen({ navigation }) {
   );
 }
 //Linia 125 este pentru a face icon urile din bara de sus la telefon albe
+//Linia 129. Am schimbat de la register screen la set up udername screen ca sa pot lucra mai usor
 const styles = StyleSheet.create({
   background: {
     flex: 1,
@@ -170,6 +141,7 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     resizeMode: 'cover',
   },
+  //pentru chenarul de login
   form: {
     width: '100%',
     paddingHorizontal: 20,

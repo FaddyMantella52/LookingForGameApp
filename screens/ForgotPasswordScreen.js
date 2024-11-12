@@ -21,7 +21,7 @@ export default function ForgotPasswordScreen({ navigation }) {
 
   return (
     <ImageBackground 
-      source={backgroundImage}  // Background image URL
+      source={backgroundImage} 
       style={styles.background}
       >
         <View style={styles.container}>
