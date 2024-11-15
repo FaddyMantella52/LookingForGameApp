@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
 import { getAuth, updateProfile } from "firebase/auth";
+import styles from './LinkAccountsScreen.module';
 
 const HomeScreen = ({ navigation }) => {
     const auth = getAuth();
@@ -35,29 +36,3 @@ const HomeScreen = ({ navigation }) => {
 };
 
 export default HomeScreen;
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#f8f8f8',
-    },
-    title: {
-        fontSize: 32,
-        marginBottom: 20,
-    },
-    button: {
-        backgroundColor: '#000',
-        paddingVertical: 12,
-        paddingHorizontal: 25,
-        borderRadius: 8,
-        alignItems: 'center',
-        marginTop: 20,
-    },
-    buttonText: {
-        color: '#fff',
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-});
