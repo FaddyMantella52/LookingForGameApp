@@ -1,6 +1,6 @@
 // ForgotPasswordScreen.js
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ImageBackground } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, ImageBackground } from 'react-native';
 import { sendPasswordResetEmail } from "firebase/auth";  // Import function from Firebase
 import { auth } from '../firebase';  // Import auth from firebase.js
 import backgroundImage from "../assets/BackGroundImage.png";
