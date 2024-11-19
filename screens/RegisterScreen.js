@@ -27,7 +27,7 @@ export default function RegisterScreen({ navigation }) {
         sendEmailVerification(user)
           .then(() => {
             Alert.alert("Success", "Registered successfully! Please check your email for verification.");
-            navigation.navigate("SetUpUsernameScreen");
+            navigation.navigate("SetUpProfilePicture");
           })
           .catch((error) => {
             Alert.alert("Error", error.message);

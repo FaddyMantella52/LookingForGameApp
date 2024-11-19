@@ -6,7 +6,7 @@ import RegisterScreen from './screens/RegisterScreen';
 import LogInScreen from './screens/LogInScreen';
 import HomeScreen from './screens/HomeScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
-import SetUpUsernameScreen from './screens/AfterRegisterScreens/SetUpUsernameScreen';
+import SetUpProfilePicture from './screens/AfterRegisterScreens/SetUpProfilePicture';
 import LinkAccountsScreen from './screens/AfterRegisterScreens/LinkAccountsScreen';
 
 
@@ -20,7 +20,7 @@ export default function App() {
       <Stack.Screen options = {{headerShown: false}} name="RegisterScreen" component={RegisterScreen} />
       <Stack.Screen options = {{headerShown: false}} name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
       <Stack.Screen options = {{headerShown: false}} name="HomeScreen" component={HomeScreen} />
-      <Stack.Screen options = {{headerShown: false}} name="SetUpUsernameScreen" component={SetUpUsernameScreen} />
+      <Stack.Screen options = {{headerShown: false}} name="SetUpProfilePicture" component={SetUpProfilePicture} />
       <Stack.Screen options = {{headerShown: false}} name="LinkAccountsScreen" component={LinkAccountsScreen} />
     </Stack.Navigator>
   </NavigationContainer>
