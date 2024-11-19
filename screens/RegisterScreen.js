@@ -3,7 +3,7 @@ import { View, Text, TextInput, StyleSheet, Alert, TouchableOpacity, ImageBackgr
 import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth"; 
 import { auth } from '../firebase';  // Import your Firebase auth instance
 import backgroundImage from "../assets/BackGroundImage.png";
-import styles from './RegisterScreen.module';
+import styles from './ScreenModules/RegisterScreen.module';
 
 export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState('');

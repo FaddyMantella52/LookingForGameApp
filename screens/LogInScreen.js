@@ -7,7 +7,7 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "fire
 import titleImage from "../assets/TitleWithNeonEffect.png"; 
 import backgroundImage from "../assets/BackGroundImage.png";
 import { StatusBar } from 'expo-status-bar';
-import styles from './LogInScreen.module.js';
+import styles from './ScreenModules/LogInScreen.module.js';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');

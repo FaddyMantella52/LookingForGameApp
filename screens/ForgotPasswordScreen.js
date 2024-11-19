@@ -4,7 +4,7 @@ import { View, Text, TextInput, TouchableOpacity, Alert, ImageBackground } from 
 import { sendPasswordResetEmail } from "firebase/auth";  // Import function from Firebase
 import { auth } from '../firebase';  // Import auth from firebase.js
 import backgroundImage from "../assets/BackGroundImage.png";
-import styles from './ForgotPasswordScreen.module.js';
+import styles from './ScreenModules/ForgotPasswordScreen.module.js';
 
 export default function ForgotPasswordScreen({ navigation }) {
   const [email, setEmail] = useState('');

@@ -1,10 +1,10 @@
 import React from "react";
 import { Text, View, TouchableOpacity, Alert } from "react-native";
-import styles from './HomeScreen.module.js';
+import styles from './ScreenModules/HomeScreen.module.js';
+import 'react-native-gesture-handler';
 
 const HomeScreen = ({ navigation }) => {
-    const handleLogout = () => {
-        // Optionally add a confirmation alert before navigating away
+    const handleNews = () => {
         Alert.alert(
             "Log Out",
             "Are you sure you want to log out?",
