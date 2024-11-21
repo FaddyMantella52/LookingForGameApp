@@ -4,7 +4,7 @@ import styles from './ScreenModules/HomeScreen.module.js';
 import 'react-native-gesture-handler';
 
 const HomeScreen = ({ navigation }) => {
-    const handleNews = () => {
+    const handleLogout = () => {
         Alert.alert(
             "Log Out",
             "Are you sure you want to log out?",
@@ -23,12 +23,12 @@ const HomeScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-      <Text style={styles.title}>Home Screen</Text>
-      <TouchableOpacity style={styles.button} onPress={handleLogout}>
-        <Text style={styles.buttonText}>Log Out</Text>
-      </TouchableOpacity>
-    </View>
-  );
+            <Text style={styles.title}>Home Screen</Text>
+            <TouchableOpacity style={styles.button} onPress={handleLogout}>
+                <Text style={styles.buttonText}>Log Out</Text>
+            </TouchableOpacity>
+        </View>
+    );
 };
 
 export default HomeScreen;
