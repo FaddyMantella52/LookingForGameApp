@@ -19,7 +19,7 @@
     "expo-image-picker": "~15.0.7",
     "expo-linear-gradient": "~13.0.2",
     "expo-status-bar": "~1.12.1",
-    "firebase": "^11.0.1",
+    "firebase": "^11.0.2",
     "react": "18.2.0",
     "react-native": "0.74.5",
     "react-native-css-transformer": "^2.0.0",

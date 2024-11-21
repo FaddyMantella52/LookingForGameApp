@@ -1,70 +1,96 @@
-import React, { useState } from 'react';
-import { View, Text, Button, Image, ImageBackground, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image, TouchableOpacity, ImageBackground, Alert, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import * as ImagePicker from 'expo-image-picker'; // Ensure you install expo-image-picker
-import defaultImage from '../../assets/defaultProfile.jpg';
-import backgroundImage from "../../assets/BackGroundImage.png";
-import styles from './SetUpProfilePicture.module'
+import { ref, listAll, getDownloadURL } from "firebase/storage"; // Firebase Storage methods
+import { storage } from '../../firebase'; // Firebase Storage instance
+import backgroundImage from "../../assets/BackGroundImage.png"; // Background image path
+import styles from './SetUpProfilePicture.module'; // Import your styles
 
-export default function SetUpUsernameScreen({ navigation }){
-    const [profileImage, setProfileImage] = useState('');
-    //const auth = getAuth();
-    
-    const pickImage = async () => {
-      // Request permission to access media library
-      let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (!permissionResult.granted) {
-        alert("Permission to access gallery is required!");
-        return;
+export default function SetUpProfilePictureScreen() {
+  const [availableImages, setAvailableImages] = useState([]); // Stores Firebase image URLs
+  const [selectedImage, setSelectedImage] = useState('');
+  const navigation = useNavigation();
+
+  // Fetch images from Firebase Storage
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        console.log("Fetching images from Firebase Storage...");
+        const listRef = ref(storage, 'profilePictures/');
+        console.log("List reference created:", listRef);
+
+        const res = await listAll(listRef);
+        console.log("List result:", res);
+
+        const urls = await Promise.all(
+          res.items.map((itemRef) => {
+            console.log("Getting URL for:", itemRef.fullPath);
+            return getDownloadURL(itemRef);
+          })
+        );
+
+        setAvailableImages(urls);
+        console.log("Fetched URLs:", urls);
+      } catch (error) {
+        console.error("Error fetching images:", error);
+        Alert.alert("Error", error.message); // Display the actual error message
       }
-  
-      // Open image picker
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 1,
-      });
-  
-      if (!result.canceled) {
-        setProfileImage(result.uri); // Store image URI
-      }
-    };
-  
-    const handleSkip = () => {
-      // Set default image if the user skips
-      const defaultImageSkip = {defaultImage}; 
-      setProfileImage(defaultImageSkip);
-      navigation.navigate("LinkAccountsScreen"); // Navigate to the next screen
-    };
-  
-    const handleNext = () => {
-      // Navigate to the LinkAccountsScreen after setting image
-      navigation.navigate("LinkAccountsScreen");
     };
 
-    return (
-      <ImageBackground 
-      source={backgroundImage} 
-      style={styles.background}
-    >
+    fetchImages();
+  }, []);
+
+  const handleNext = () => {
+    if (!selectedImage) {
+      Alert.alert("No Selection", "Please select a profile picture or skip.");
+      return;
+    }
+
+    navigation.navigate("LinkAccountsScreen", { profilePicture: selectedImage });
+  };
+
+  const handleSkip = () => {
+    navigation.navigate("LinkAccountsScreen", { profilePicture: null }); // Or use a default image
+  };
+
+  return (
+    <ImageBackground source={backgroundImage} style={styles.background}>
       <View style={styles.container}>
         <Text style={styles.title}>Choose Your Profile Picture</Text>
-        
-        {profileImage ? (
-          <Image source={{ uri: profileImage }} style={styles.profileImage} />
-        ) : (
-          <Text style={styles.placeholderText}>No profile picture selected</Text>
-        )}
-  
-        <TouchableOpacity onPress={pickImage} style={styles.button}>
-          <Text style={styles.buttonText}>Pick an Image</Text>
+
+        <ScrollView contentContainerStyle={styles.imageGrid}>
+          {availableImages.length > 0 ? (
+            availableImages.map((item, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => setSelectedImage(item)}
+                style={[
+                  styles.imageContainer,
+                  selectedImage === item && styles.selectedImageContainer, // Highlight selected image
+                ]}
+              >
+                <View style={styles.imageWrapper}>
+                  <Image source={{ uri: item }} style={styles.imageThumbnail} />
+                </View>
+              </TouchableOpacity>
+            ))
+          ) : (
+            <Text style={styles.placeholderText}>No images available</Text>
+          )}
+        </ScrollView>
+
+        <TouchableOpacity
+          onPress={handleNext}
+          style={[styles.button, selectedImage ? styles.buttonEnabled : styles.buttonDisabled]}
+          disabled={!selectedImage}
+        >
+          <Text style={styles.buttonText}>Next</Text>
         </TouchableOpacity>
-  
-        <TouchableOpacity onPress={profileImage ? handleNext : handleSkip} style={styles.button}>
-          <Text style={styles.buttonText}>{profileImage ? "Next" : "Skip"}</Text>
+
+        <TouchableOpacity onPress={handleSkip} style={styles.button}>
+          <Text style={styles.buttonText}>Skip</Text>
         </TouchableOpacity>
       </View>
-      </ImageBackground>
-    );
-  }
+    </ImageBackground>
+  );
+}
