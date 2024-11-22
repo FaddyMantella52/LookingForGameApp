@@ -52,12 +52,18 @@ export default StyleSheet.create({
   
   buttonsContainer: {
     marginTop: 30,
+    flex: 1,
+    flexDirection: 'row',
+    alignContent: 'center',
   },
   button: {
-    backgroundColor: '#f79308',
-    padding: 30,
+    width:150,
+    height:100,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    padding: 10,
     borderRadius: 10,
     marginBottom: 15,
+    marginHorizontal: 10,
     alignItems: 'center',
   },
   buttonText: {
