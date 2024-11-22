@@ -1,34 +1,33 @@
-import React from "react";
-import { Text, View, TouchableOpacity, Alert } from "react-native";
+import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ImageBackground } from 'react-native';
 import styles from './ScreenModules/HomeScreen.module.js';
-import 'react-native-gesture-handler';
+import titleImage from "../assets/TitleWithNeonEffect.png"; 
+import backgroundImage from "../assets/BackGroundImage.png";
 
-const HomeScreen = ({ navigation }) => {
-    const handleNews = () => {
-        Alert.alert(
-            "Log Out",
-            "Are you sure you want to log out?",
-            [
-                {
-                    text: "Cancel",
-                    style: "cancel"
-                },
-                {
-                    text: "Log Out",
-                    onPress: () => navigation.navigate("LogInScreen") // Navigate to Login screen
-                }
-            ]
-        );
-    };
+export default function HomeScreen() {
+  return (
+    <ImageBackground 
+      source={backgroundImage}
+      style={styles.background} // Style for the background
+    >
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Image source={titleImage} style={styles.titleImage}></Image>
+        <TouchableOpacity style={styles.menuButton}>
+          <Text style={styles.menuText}>☰</Text>
+        </TouchableOpacity>
+      </View>
 
-    return (
-        <View style={styles.container}>
-      <Text style={styles.title}>Home Screen</Text>
-      <TouchableOpacity style={styles.button} onPress={handleLogout}>
-        <Text style={styles.buttonText}>Log Out</Text>
-      </TouchableOpacity>
+
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity style={styles.button1}>
+          <Text style={styles.buttonText}>NEWS</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button2}>
+          <Text style={styles.buttonText}>Patch Notes/App Changes</Text>
+        </TouchableOpacity>
+      </View>
     </View>
+    </ImageBackground>
   );
-};
-
-export default HomeScreen;
+}

@@ -23,7 +23,7 @@ export default function LoginScreen({ navigation }) {
       .then((userCredential) => {
         const user = userCredential.user;
         Alert.alert("Success", "Welcome back!");
-        navigation.navigate("SetUpProfilePicture");
+        navigation.navigate("HomeScreen");
       })
       .catch((error) => {
         const errorCode = error.code;
