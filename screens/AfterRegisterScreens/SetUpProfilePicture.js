@@ -15,22 +15,22 @@ export default function SetUpProfilePictureScreen() {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        console.log("Fetching images from Firebase Storage...");
+        // console.log("Fetching images from Firebase Storage...");
         const listRef = ref(storage, 'profilePictures/');
-        console.log("List reference created:", listRef);
+        // console.log("List reference created:", listRef);
 
         const res = await listAll(listRef);
-        console.log("List result:", res);
+        // console.log("List result:", res);
 
         const urls = await Promise.all(
           res.items.map((itemRef) => {
-            console.log("Getting URL for:", itemRef.fullPath);
+            // console.log("Getting URL for:", itemRef.fullPath);
             return getDownloadURL(itemRef);
           })
         );
 
         setAvailableImages(urls);
-        console.log("Fetched URLs:", urls);
+        // console.log("Fetched URLs:", urls);
       } catch (error) {
         console.error("Error fetching images:", error);
         Alert.alert("Error", error.message); // Display the actual error message
