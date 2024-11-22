@@ -1,27 +1,68 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  container: {
+  background: {
     flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  },
+  
+  header: {
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f8f8f8',
-  },
-  title: {
-    fontSize: 32,
     marginBottom: 20,
+    marginTop: -350,
+  },
+  titleImage: {
+    width: 180,  // Adjust width to your preference
+      height: 119,  // Adjust height proportionally to your image
+      marginBottom: 0,
+      resizeMode: 'cover',
+      marginHorizontal: 32,
+    
+  },
+
+  menuButtonProfile:{
+    width:50,
+    height:50,
+    backgroundColor: '#fff',
+    borderRadius: 50,
+  },
+
+  profileImage:{
+    width:50,
+    height:50,
+    borderRadius: 50,
+    padding:10,
+  },
+
+
+  menuButton: {
+    width:50,
+    height:50,
+    backgroundColor: '#fff',
+    borderRadius: 50,
+    padding: 11,
+  },
+  menuText: {
+    fontSize: 20,
+    color: '#000',
+  },
+  
+  buttonsContainer: {
+    marginTop: 30,
   },
   button: {
-    backgroundColor: '#000',
-    paddingVertical: 12,
-    paddingHorizontal: 25,
-    borderRadius: 8,
+    backgroundColor: '#f79308',
+    padding: 30,
+    borderRadius: 10,
+    marginBottom: 15,
     alignItems: 'center',
-    marginTop: 20,
   },
   buttonText: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
   },
 });
