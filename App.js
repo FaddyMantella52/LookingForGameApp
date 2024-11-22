@@ -8,6 +8,7 @@ import HomeScreen from './screens/HomeScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import SetUpProfilePicture from './screens/AfterRegisterScreens/SetUpProfilePicture';
 import LinkAccountsScreen from './screens/AfterRegisterScreens/LinkAccountsScreen';
+import VerifyEmailScreen from './screens/VerifyEmailScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -22,6 +23,7 @@ export default function App() {
       <Stack.Screen options = {{headerShown: false}} name="HomeScreen" component={HomeScreen} />
       <Stack.Screen options = {{headerShown: false}} name="SetUpProfilePicture" component={SetUpProfilePicture} />
       <Stack.Screen options = {{headerShown: false}} name="LinkAccountsScreen" component={LinkAccountsScreen} />
+      <Stack.Screen options = {{headerShown: false}} name="VerifyEmailScreen" component={VerifyEmailScreen} />
     </Stack.Navigator>
   </NavigationContainer>
   );
