@@ -40,7 +40,7 @@ const LinkAccountsScreen = () => {
 
   const handleSkip = () => {
     // Navigate back to the home screen without linking any account
-    navigation.navigate("HomeScreen");
+    navigation.navigate("Main");
   };
 
   return (
