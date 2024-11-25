@@ -1,4 +1,5 @@
 import React from 'react';
+import { enableScreens } from 'react-native-screens';
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet } from 'react-native';
@@ -14,6 +15,7 @@ import VerifyEmailScreen from './screens/VerifyEmailScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import SelectGameScreen from './screens/SelectGameScreen';
 
+enableScreens();
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -39,6 +41,10 @@ const BottomTabNavigator = () => {
         tabBarStyle: { backgroundColor: '#000' },
         headerShown: false,
       })}
+      tabBarOptions={{
+        gestureEnabled: true, // Enable swipe gestures
+        keyboardHidesTabBar: true,
+      }}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
