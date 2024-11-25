@@ -1,4 +1,5 @@
 import React from 'react';
+import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -16,23 +17,35 @@ import SelectGameScreen from './screens/SelectGameScreen';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function BottomTabNavigator() {
+const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
-      screenOptions={{
-        tabBarStyle: { backgroundColor: '#000' }, // Black tab bar
-        tabBarLabelStyle: { fontSize: 14, fontWeight: 'bold' },
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === 'Home') {
+            iconName = focused ? 'home' : 'home-outline';
+          } else if (route.name === 'Profile') {
+            iconName = focused ? 'person' : 'person-outline';
+          } else if (route.name === 'Search') {
+            iconName = focused ? 'search' : 'search-outline';
+          }
+
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
         tabBarActiveTintColor: '#fff',
         tabBarInactiveTintColor: '#888',
+        tabBarStyle: { backgroundColor: '#000' },
         headerShown: false,
-      }}
+      })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
       <Tab.Screen name="Search" component={SelectGameScreen} />
     </Tab.Navigator>
   );
-}
+};
 
 export default function App() {
   return (
