@@ -14,6 +14,10 @@ import LinkAccountsScreen from './screens/AfterRegisterScreens/LinkAccountsScree
 import VerifyEmailScreen from './screens/VerifyEmailScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import SelectGameScreen from './screens/SelectGameScreen';
+import LeagueOfLegendsSettings from './screens/SelectGameScreens/LeagueOfLegendsSettings';
+import CS_GOSettings from './screens/SelectGameScreens/CS_GOSettings';
+import ApexLegendsSettings from './screens/SelectGameScreens/ApexLegendsSettings';
+import Dota2Settings from './screens/SelectGameScreens/Dota2Settings';
 
 enableScreens();
 const Stack = createNativeStackNavigator();
@@ -41,10 +45,6 @@ const BottomTabNavigator = () => {
         tabBarStyle: { backgroundColor: '#000' },
         headerShown: false,
       })}
-      tabBarOptions={{
-        gestureEnabled: true, // Enable swipe gestures
-        keyboardHidesTabBar: true,
-      }}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
@@ -56,19 +56,28 @@ const BottomTabNavigator = () => {
 export default function App() {
   return (
     <NavigationContainer>
-    <Stack.Navigator>
-      <Stack.Screen options = {{headerShown: false}} name="LogInScreen" component={LogInScreen} />
-      <Stack.Screen options = {{headerShown: false}} name="RegisterScreen" component={RegisterScreen} />
-      <Stack.Screen options = {{headerShown: false}} name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
-      {/* <Stack.Screen options = {{headerShown: false}} name="HomeScreen" component={HomeScreen} /> */}
-      <Stack.Screen options = {{headerShown: false}} name="SetUpProfilePicture" component={SetUpProfilePicture} />
-      <Stack.Screen options = {{headerShown: false}} name="LinkAccountsScreen" component={LinkAccountsScreen} />
-      <Stack.Screen options = {{headerShown: false}} name="VerifyEmailScreen" component={VerifyEmailScreen} />
-      <Stack.Screen options = {{headerShown: false}} name="ProfileScreen" component={ProfileScreen} />
-      {/* <Stack.Screen options = {{headerShown: false}} name="SelectGameScreen" component={SelectGameScreen} /> */}
-      <Stack.Screen options = {{headerShown: false}} name="Main" component={BottomTabNavigator} />
-    </Stack.Navigator>
-  </NavigationContainer>
+      <Stack.Navigator>
+        {/* Authentication Screens */}
+        <Stack.Screen options={{ headerShown: false }} name="LogInScreen" component={LogInScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="RegisterScreen" component={RegisterScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
+
+        {/* After Registration Screens */}
+        <Stack.Screen options={{ headerShown: false }} name="SetUpProfilePicture" component={SetUpProfilePicture} />
+        <Stack.Screen options={{ headerShown: false }} name="LinkAccountsScreen" component={LinkAccountsScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="VerifyEmailScreen" component={VerifyEmailScreen} />
+
+        {/* Main App */}
+        <Stack.Screen options={{ headerShown: false }} name="Main" component={BottomTabNavigator} />
+
+        {/* Game Selection Screens */}
+        <Stack.Screen options={{ headerShown: false }} name="SelectGameScreen" component={SelectGameScreen} />
+        <Stack.Screen options={{ headerShown: false, title: 'League of Legends Settings' }} name="LeagueOfLegendsSettings" component={LeagueOfLegendsSettings} />
+        <Stack.Screen options={{ headerShown: false, title: 'CS:GO Settings' }} name="CS_GOSettings" component={CS_GOSettings} />
+        <Stack.Screen options={{ headerShown: false, title: 'Apex Legends Settings' }} name="ApexLegendsSettings" component={ApexLegendsSettings} />
+        <Stack.Screen options={{ headerShown: false, title: 'Dota 2 Settings' }} name="Dota2Settings" component={Dota2Settings} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
@@ -78,5 +87,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
 });
