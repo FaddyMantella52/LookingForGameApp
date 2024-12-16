@@ -9,10 +9,10 @@ import styles from './ScreenModules/SelectGameScreen.module';
 
 export default function SelectGameScreen({ navigation }) {
   const games = [
-    { name: 'League of Legends', icon: lolIcon, screen: 'LoLSettings' },
-    { name: 'CS:GO', icon: csgoIcon, screen: 'CSGOSettings' },
-    { name: 'Apex Legends', icon: apexIcon, screen: 'ApexSettings' },
-    { name: 'Dota 2', icon: dotaIcon, screen: 'DotaSettings' },
+    { name: 'League of Legends', icon: lolIcon, screen: 'LeagueOfLegendsSettings' },
+    { name: 'CS:GO', icon: csgoIcon, screen: 'CS_GOSettings' },
+    { name: 'Apex Legends', icon: apexIcon, screen: 'ApexLegendsSettings' },
+    { name: 'Dota 2', icon: dotaIcon, screen: 'Dota2Settings' },
   ];
 
   return (
