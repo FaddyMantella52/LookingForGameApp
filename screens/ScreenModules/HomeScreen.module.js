@@ -1,6 +1,11 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  
   background: {
     flex: 1,
     resizeMode: 'cover',
@@ -12,7 +17,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
-    marginTop: -350,
+    marginTop: 20,
   },
   titleImage: {
     width: 180,  // Adjust width to your preference
@@ -51,9 +56,10 @@ export default StyleSheet.create({
   },
   
   buttonsContainer: {
-    marginTop: 30,
-    flex: 1,
     flexDirection: 'row',
+    marginTop: 30,
+    marginHorizontal: -10,
+    flex: 1,
     alignContent: 'center',
   },
   button: {
