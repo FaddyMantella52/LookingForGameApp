@@ -6,29 +6,25 @@ import { getAuth } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import backgroundImage from "../../assets/BackGroundImage.png";
 
-const Dota2Settings = () => {
+const CSGOSettings = () => {
   const [region, setRegion] = useState('');
   const [rank, setRank] = useState('');
-  const [mainLanguage, setMainLanguage] = useState('');
-  const [secondaryLanguage, setSecondaryLanguage] = useState('');
   const [mainRole, setMainRole] = useState('');
-  const [secondaryRole, setSecondaryRole] = useState('');
-  const [hasSubmitted, setHasSubmitted] = useState(false); // To check if settings have been submitted
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const firestore = getFirestore();
   const auth = getAuth();
   const navigation = useNavigation();
 
-  // Check if user has already submitted settings
   useEffect(() => {
     const checkIfSettingsExist = async () => {
       const userId = auth.currentUser?.uid;
       if (userId) {
-        const dota2SettingsRef = doc(firestore, 'dota2Settings', userId);
-        const docSnap = await getDoc(dota2SettingsRef);
+        const csgoSettingsRef = doc(firestore, 'csgoSettings', userId);
+        const docSnap = await getDoc(csgoSettingsRef);
 
         if (docSnap.exists()) {
-          setHasSubmitted(true); // User has already submitted settings
+          setHasSubmitted(true);
         }
       }
     };
@@ -43,45 +39,38 @@ const Dota2Settings = () => {
       return;
     }
 
-    if (!region || !rank || !mainLanguage || !mainRole) {
+    if (!region || !rank || !mainRole) {
       alert('Please fill out all required fields.');
       return;
     }
 
-    const dota2SettingsRef = doc(firestore, 'dota2Settings', userId);
+    const csgoSettingsRef = doc(firestore, 'csgoSettings', userId);
     const data = {
       region,
       rank,
-      mainLanguage,
-      secondaryLanguage,
       mainRole,
-      secondaryRole,
     };
 
     try {
-      // Save user preferences to Firestore
-      await setDoc(dota2SettingsRef, data, { merge: true });
+      await setDoc(csgoSettingsRef, data, { merge: true });
       console.log('Settings saved successfully.');
-
-      // Navigate to RecommendationDota and pass user settings
-      navigation.navigate('RecommendationDota', {
-        userSettings: { region, rank, mainLanguage, secondaryLanguage, mainRole, secondaryRole },
+      navigation.navigate('RecommendationCSGO', {
+        userSettings: { region, rank, mainRole },
       });
     } catch (error) {
-      console.error('Error saving Dota 2 settings:', error);
+      console.error('Error saving CS:GO settings:', error);
       alert('Failed to save settings. Please try again.');
     }
   };
 
   const skipSettings = () => {
-    // Navigate to RecommendationDota without saving settings
-    navigation.navigate('RecommendationDota', { userSettings: {} });
+    navigation.navigate('RecommendationCSGO', { userSettings: {} });
   };
 
   return (
     <ImageBackground source={backgroundImage} style={styles.background} resizeMode="cover">
       <View style={styles.container}>
-        <Text style={styles.title}>Dota 2 Settings</Text>
+        <Text style={styles.title}>CS:GO Settings</Text>
 
         <View style={styles.pickerContainer}>
           <Text style={styles.label}>Region</Text>
@@ -89,8 +78,7 @@ const Dota2Settings = () => {
             <Picker.Item label="Select Region" value="" />
             <Picker.Item label="North America" value="NA" />
             <Picker.Item label="Europe" value="EU" />
-            <Picker.Item label="Asia" value="AS" />
-            <Picker.Item label="Oceania" value="OC" />
+            <Picker.Item label="Asia" value="Asia" />
           </Picker>
         </View>
 
@@ -98,36 +86,10 @@ const Dota2Settings = () => {
           <Text style={styles.label}>Rank</Text>
           <Picker selectedValue={rank} onValueChange={(value) => setRank(value)} style={styles.picker}>
             <Picker.Item label="Select Rank" value="" />
-            <Picker.Item label="Herald" value="Herald" />
-            <Picker.Item label="Guardian" value="Guardian" />
-            <Picker.Item label="Crusader" value="Crusader" />
-            <Picker.Item label="Archon" value="Archon" />
-            <Picker.Item label="Legend" value="Legend" />
-            <Picker.Item label="Ancient" value="Ancient" />
-            <Picker.Item label="Divine" value="Divine" />
-            <Picker.Item label="Immortal" value="Immortal" />
-          </Picker>
-        </View>
-
-        <View style={styles.pickerContainer}>
-          <Text style={styles.label}>Main Language</Text>
-          <Picker selectedValue={mainLanguage} onValueChange={(value) => setMainLanguage(value)} style={styles.picker}>
-            <Picker.Item label="Select Main Language" value="" />
-            <Picker.Item label="English" value="English" />
-            <Picker.Item label="Spanish" value="Spanish" />
-            <Picker.Item label="Russian" value="Russian" />
-            <Picker.Item label="Chinese" value="Chinese" />
-          </Picker>
-        </View>
-
-        <View style={styles.pickerContainer}>
-          <Text style={styles.label}>Secondary Language</Text>
-          <Picker selectedValue={secondaryLanguage} onValueChange={(value) => setSecondaryLanguage(value)} style={styles.picker}>
-            <Picker.Item label="Select Secondary Language" value="" />
-            <Picker.Item label="English" value="English" />
-            <Picker.Item label="Spanish" value="Spanish" />
-            <Picker.Item label="Russian" value="Russian" />
-            <Picker.Item label="Chinese" value="Chinese" />
+            <Picker.Item label="Silver" value="Silver" />
+            <Picker.Item label="Gold Nova" value="Gold Nova" />
+            <Picker.Item label="Master Guardian" value="Master Guardian" />
+            <Picker.Item label="Legendary" value="Legendary" />
           </Picker>
         </View>
 
@@ -135,21 +97,10 @@ const Dota2Settings = () => {
           <Text style={styles.label}>Main Role</Text>
           <Picker selectedValue={mainRole} onValueChange={(value) => setMainRole(value)} style={styles.picker}>
             <Picker.Item label="Select Main Role" value="" />
-            <Picker.Item label="Carry" value="Carry" />
+            <Picker.Item label="AWPer" value="AWPer" />
+            <Picker.Item label="Entry Fragger" value="Entry Fragger" />
             <Picker.Item label="Support" value="Support" />
-            <Picker.Item label="Offlane" value="Offlane" />
-            <Picker.Item label="Mid" value="Mid" />
-          </Picker>
-        </View>
-
-        <View style={styles.pickerContainer}>
-          <Text style={styles.label}>Secondary Role</Text>
-          <Picker selectedValue={secondaryRole} onValueChange={(value) => setSecondaryRole(value)} style={styles.picker}>
-            <Picker.Item label="Select Secondary Role" value="" />
-            <Picker.Item label="Carry" value="Carry" />
-            <Picker.Item label="Support" value="Support" />
-            <Picker.Item label="Offlane" value="Offlane" />
-            <Picker.Item label="Mid" value="Mid" />
+            <Picker.Item label="Rifler" value="Rifler" />
           </Picker>
         </View>
 
@@ -241,4 +192,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Dota2Settings;
+export default CSGOSettings;

@@ -15,10 +15,14 @@ import VerifyEmailScreen from './screens/VerifyEmailScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import SelectGameScreen from './screens/SelectGameScreen';
 import LeagueOfLegendsSettings from './screens/SelectGameScreens/LeagueOfLegendsSettings';
-import CS_GOSettings from './screens/SelectGameScreens/CS_GOSettings';
+import CSGOSettings from './screens/SelectGameScreens/CSGOSettings';
 import ApexLegendsSettings from './screens/SelectGameScreens/ApexLegendsSettings';
 import Dota2Settings from './screens/SelectGameScreens/Dota2Settings';
 import RecommendationLol from './screens/RecommendationScreen/RecommendationLol';
+import RecommendationDota2 from './screens/RecommendationScreen/RecommendationDota2';
+import RecommendationApex from './screens/RecommendationScreen/RecommendationApex';
+import RecommendationCSGO from './screens/RecommendationScreen/RecommendationCSGO';
+
 
 enableScreens();
 const Stack = createNativeStackNavigator();
@@ -74,13 +78,15 @@ export default function App() {
         {/* Game Selection Screens */}
         <Stack.Screen options={{ headerShown: false }} name="SelectGameScreen" component={SelectGameScreen} />
         <Stack.Screen options={{ headerShown: false, title: 'League of Legends Settings' }} name="LeagueOfLegendsSettings" component={LeagueOfLegendsSettings} />
-        <Stack.Screen options={{ headerShown: false, title: 'CS:GO Settings' }} name="CS_GOSettings" component={CS_GOSettings} />
+        <Stack.Screen options={{ headerShown: false, title: 'CS:GO Settings' }} name="CSGOSettings" component={CSGOSettings} />
         <Stack.Screen options={{ headerShown: false, title: 'Apex Legends Settings' }} name="ApexLegendsSettings" component={ApexLegendsSettings} />
         <Stack.Screen options={{ headerShown: false, title: 'Dota 2 Settings' }} name="Dota2Settings" component={Dota2Settings} />
 
         {/* {RecommendationsScreen} */}
         <Stack.Screen options={{ headerShown: false }} name="RecommendationLol" component={RecommendationLol} />
-
+        <Stack.Screen options={{ headerShown: false }} name="RecommendationDota2" component={RecommendationDota2} />
+        <Stack.Screen options={{ headerShown: false }} name="RecommendationCSGO" component={RecommendationCSGO} />
+        <Stack.Screen options={{ headerShown: false }} name="RecommendationApex" component={RecommendationApex} />
 
       </Stack.Navigator>
     </NavigationContainer>
