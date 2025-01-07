@@ -105,6 +105,9 @@ const LeagueOfLegendsSettings = () => {
             <Picker.Item label="Gold" value="Gold" />
             <Picker.Item label="Platinum" value="Platinum" />
             <Picker.Item label="Diamond" value="Diamond" />
+            <Picker.Item label="Master" value="Master" />
+            <Picker.Item label="Grandmaster" value="Grandmaster" />
+            <Picker.Item label="Challenger" value="Challenger" />
           </Picker>
         </View>
 
@@ -116,6 +119,7 @@ const LeagueOfLegendsSettings = () => {
             <Picker.Item label="Spanish" value="Spanish" />
             <Picker.Item label="French" value="French" />
             <Picker.Item label="German" value="German" />
+            <Picker.Item label="Korean" value="Korean" />
           </Picker>
         </View>
 
@@ -127,6 +131,7 @@ const LeagueOfLegendsSettings = () => {
             <Picker.Item label="Spanish" value="Spanish" />
             <Picker.Item label="French" value="French" />
             <Picker.Item label="German" value="German" />
+            <Picker.Item label="Korean" value="Korean" />
           </Picker>
         </View>
 

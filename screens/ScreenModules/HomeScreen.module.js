@@ -58,9 +58,10 @@ export default StyleSheet.create({
   },
   
   buttonsContainer: {
-    marginTop: 30,
-    flex: 1,
     flexDirection: 'row',
+    marginTop: 30,
+    marginHorizontal: -10,
+    flex: 1,
     alignContent: 'center',
   },
   button: {
