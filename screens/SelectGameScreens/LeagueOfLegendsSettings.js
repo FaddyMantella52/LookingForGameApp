@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, Alert } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
+import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import backgroundImage from "../../assets/BackGroundImage.png";
@@ -12,10 +13,28 @@ const LeagueOfLegendsSettings = () => {
   const [secondaryLanguage, setSecondaryLanguage] = useState('');
   const [mainRole, setMainRole] = useState('');
   const [secondaryRole, setSecondaryRole] = useState('');
+  const [hasSubmitted, setHasSubmitted] = useState(false); // To check if settings have been submitted
 
   const firestore = getFirestore();
   const auth = getAuth();
   const navigation = useNavigation();
+
+  // Check if user has already submitted settings
+  useEffect(() => {
+    const checkIfSettingsExist = async () => {
+      const userId = auth.currentUser?.uid;
+      if (userId) {
+        const leagueSettingsRef = doc(firestore, 'leagueSettings', userId);
+        const docSnap = await getDoc(leagueSettingsRef);
+
+        if (docSnap.exists()) {
+          setHasSubmitted(true); // User has already submitted settings
+        }
+      }
+    };
+
+    checkIfSettingsExist();
+  }, []);
 
   const saveSettings = async () => {
     const userId = auth.currentUser?.uid;
@@ -24,86 +43,132 @@ const LeagueOfLegendsSettings = () => {
       return;
     }
 
-    const leagueSettingsRef = doc(firestore, 'leagueSettings', userId);
-    const data = {};
-    if (region) data.region = region;
-    if (rank) data.rank = rank;
-    if (mainLanguage) data.mainLanguage = mainLanguage;
-    if (secondaryLanguage) data.secondaryLanguage = secondaryLanguage;
-    if (mainRole) data.mainRole = mainRole;
-    if (secondaryRole) data.secondaryRole = secondaryRole;
-
-    if (Object.keys(data).length === 0) {
-    alert('No fields to update. Please fill in at least one field.');
-    return;
+    if (!region || !rank || !mainLanguage || !mainRole) {
+      alert('Please fill out all required fields.');
+      return;
     }
 
+    const leagueSettingsRef = doc(firestore, 'leagueSettings', userId);
+    const data = {
+      region,
+      rank,
+      mainLanguage,
+      secondaryLanguage,
+      mainRole,
+      secondaryRole,
+    };
 
     try {
-      await setDoc(leagueSettingsRef, data,{ merge: true });
-      alert('League of Legends settings saved successfully!');
-      navigation.navigate('Main'); // Navigate to Home screen
+      // Save user preferences to Firestore
+      await setDoc(leagueSettingsRef, data, { merge: true });
+      console.log('Settings saved successfully.');
+
+      // Navigate to RecommendationLol and pass user settings
+      navigation.navigate('RecommendationLol', {
+        userSettings: { region, rank, mainLanguage, secondaryLanguage, mainRole, secondaryRole },
+      });
     } catch (error) {
       console.error('Error saving League of Legends settings:', error);
       alert('Failed to save settings. Please try again.');
     }
   };
 
+  const skipSettings = () => {
+    // Navigate to RecommendationLol without saving settings
+    navigation.navigate('RecommendationLol', { userSettings: {} });
+  };
+
   return (
-    <ImageBackground
-    source={backgroundImage} 
-    style={styles.background}
-     resizeMode="cover"
-    >
+    <ImageBackground source={backgroundImage} style={styles.background} resizeMode="cover">
       <View style={styles.container}>
         <Text style={styles.title}>League of Legends Settings</Text>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Region"
-          placeholderTextColor="#aaa"
-          value={region}
-          onChangeText={setRegion}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Rank"
-          placeholderTextColor="#aaa"
-          value={rank}
-          onChangeText={setRank}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Main Language"
-          placeholderTextColor="#aaa"
-          value={mainLanguage}
-          onChangeText={setMainLanguage}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Secondary Language"
-          placeholderTextColor="#aaa"
-          value={secondaryLanguage}
-          onChangeText={setSecondaryLanguage}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Main Role"
-          placeholderTextColor="#aaa"
-          value={mainRole}
-          onChangeText={setMainRole}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Secondary Role"
-          placeholderTextColor="#aaa"
-          value={secondaryRole}
-          onChangeText={setSecondaryRole}
-        />
+        <View style={styles.pickerContainer}>
+          <Text style={styles.label}>Region</Text>
+          <Picker selectedValue={region} onValueChange={(value) => setRegion(value)} style={styles.picker}>
+            <Picker.Item label="Select Region" value="" />
+            <Picker.Item label="North America" value="NA" />
+            <Picker.Item label="Europe West" value="EUW" />
+            <Picker.Item label="Europe Nordic & East" value="EUNE" />
+            <Picker.Item label="Korea" value="KR" />
+            <Picker.Item label="Brazil" value="BR" />
+          </Picker>
+        </View>
+
+        <View style={styles.pickerContainer}>
+          <Text style={styles.label}>Rank</Text>
+          <Picker selectedValue={rank} onValueChange={(value) => setRank(value)} style={styles.picker}>
+            <Picker.Item label="Select Rank" value="" />
+            <Picker.Item label="Iron" value="Iron" />
+            <Picker.Item label="Bronze" value="Bronze" />
+            <Picker.Item label="Silver" value="Silver" />
+            <Picker.Item label="Gold" value="Gold" />
+            <Picker.Item label="Platinum" value="Platinum" />
+            <Picker.Item label="Diamond" value="Diamond" />
+          </Picker>
+        </View>
+
+        <View style={styles.pickerContainer}>
+          <Text style={styles.label}>Main Language</Text>
+          <Picker selectedValue={mainLanguage} onValueChange={(value) => setMainLanguage(value)} style={styles.picker}>
+            <Picker.Item label="Select Main Language" value="" />
+            <Picker.Item label="English" value="English" />
+            <Picker.Item label="Spanish" value="Spanish" />
+            <Picker.Item label="French" value="French" />
+            <Picker.Item label="German" value="German" />
+          </Picker>
+        </View>
+
+        <View style={styles.pickerContainer}>
+          <Text style={styles.label}>Secondary Language</Text>
+          <Picker selectedValue={secondaryLanguage} onValueChange={(value) => setSecondaryLanguage(value)} style={styles.picker}>
+            <Picker.Item label="Select Secondary Language" value="" />
+            <Picker.Item label="English" value="English" />
+            <Picker.Item label="Spanish" value="Spanish" />
+            <Picker.Item label="French" value="French" />
+            <Picker.Item label="German" value="German" />
+          </Picker>
+        </View>
+
+        <View style={styles.pickerContainer}>
+          <Text style={styles.label}>Main Role</Text>
+          <Picker selectedValue={mainRole} onValueChange={(value) => setMainRole(value)} style={styles.picker}>
+            <Picker.Item label="Select Main Role" value="" />
+            <Picker.Item label="Top" value="Top" />
+            <Picker.Item label="Jungle" value="Jungle" />
+            <Picker.Item label="Mid" value="Mid" />
+            <Picker.Item label="ADC" value="ADC" />
+            <Picker.Item label="Support" value="Support" />
+          </Picker>
+        </View>
+
+        <View style={styles.pickerContainer}>
+          <Text style={styles.label}>Secondary Role</Text>
+          <Picker selectedValue={secondaryRole} onValueChange={(value) => setSecondaryRole(value)} style={styles.picker}>
+            <Picker.Item label="Select Secondary Role" value="" />
+            <Picker.Item label="Top" value="Top" />
+            <Picker.Item label="Jungle" value="Jungle" />
+            <Picker.Item label="Mid" value="Mid" />
+            <Picker.Item label="ADC" value="ADC" />
+            <Picker.Item label="Support" value="Support" />
+          </Picker>
+        </View>
 
         <TouchableOpacity style={styles.saveButton} onPress={saveSettings}>
           <Text style={styles.saveButtonText}>Save Settings</Text>
         </TouchableOpacity>
+
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+            <Text style={styles.buttonText}>Back</Text>
+          </TouchableOpacity>
+
+          {hasSubmitted && (
+            <TouchableOpacity style={styles.skipButton} onPress={skipSettings}>
+              <Text style={styles.buttonText}>Skip</Text>
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
     </ImageBackground>
   );
@@ -117,7 +182,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)', // Transparent overlay for readability
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
   },
   title: {
     fontSize: 22,
@@ -126,24 +191,53 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
   },
-  input: {
+  pickerContainer: {
+    marginBottom: 15,
+  },
+  label: {
+    color: '#fff',
+    marginBottom: 5,
+  },
+  picker: {
     backgroundColor: '#1c1c1c',
     color: '#fff',
-    padding: 12,
     borderRadius: 8,
-    marginBottom: 15,
-    borderWidth: 1,
-    borderColor: '#333',
   },
   saveButton: {
     backgroundColor: '#007BFF',
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',
+    marginBottom: 20,
   },
   saveButtonText: {
     color: '#fff',
     fontSize: 16,
+    fontWeight: 'bold',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
+  backButton: {
+    backgroundColor: '#444',
+    padding: 10,
+    borderRadius: 8,
+    flex: 1,
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  skipButton: {
+    backgroundColor: '#FF6347',
+    padding: 10,
+    borderRadius: 8,
+    flex: 1,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 14,
     fontWeight: 'bold',
   },
 });

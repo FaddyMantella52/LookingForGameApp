@@ -46,11 +46,11 @@ export default function SetUpProfilePictureScreen() {
       return;
     }
 
-    navigation.navigate("LinkAccountsScreen", { profilePicture: selectedImage });
+    navigation.navigate("Main", { profilePicture: selectedImage });
   };
 
   const handleSkip = () => {
-    navigation.navigate("LinkAccountsScreen", { profilePicture: null }); // Or use a default image
+    navigation.navigate("Main", { profilePicture: null }); // Or use a default image
   };
 
   return (
