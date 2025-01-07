@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import backgroundImage from "../../assets/BackGroundImage.png";
@@ -13,10 +13,28 @@ const LeagueOfLegendsSettings = () => {
   const [secondaryLanguage, setSecondaryLanguage] = useState('');
   const [mainRole, setMainRole] = useState('');
   const [secondaryRole, setSecondaryRole] = useState('');
+  const [hasSubmitted, setHasSubmitted] = useState(false); // To check if settings have been submitted
 
   const firestore = getFirestore();
   const auth = getAuth();
   const navigation = useNavigation();
+
+  // Check if user has already submitted settings
+  useEffect(() => {
+    const checkIfSettingsExist = async () => {
+      const userId = auth.currentUser?.uid;
+      if (userId) {
+        const leagueSettingsRef = doc(firestore, 'leagueSettings', userId);
+        const docSnap = await getDoc(leagueSettingsRef);
+
+        if (docSnap.exists()) {
+          setHasSubmitted(true); // User has already submitted settings
+        }
+      }
+    };
+
+    checkIfSettingsExist();
+  }, []);
 
   const saveSettings = async () => {
     const userId = auth.currentUser?.uid;
@@ -25,27 +43,48 @@ const LeagueOfLegendsSettings = () => {
       return;
     }
 
+    if (!region || !rank || !mainLanguage || !mainRole) {
+      alert('Please fill out all required fields.');
+      return;
+    }
+
     const leagueSettingsRef = doc(firestore, 'leagueSettings', userId);
-    const data = { region, rank, mainLanguage, secondaryLanguage, mainRole, secondaryRole };
+    const data = {
+      region,
+      rank,
+      mainLanguage,
+      secondaryLanguage,
+      mainRole,
+      secondaryRole,
+    };
 
     try {
+      // Save user preferences to Firestore
       await setDoc(leagueSettingsRef, data, { merge: true });
-      alert('League of Legends settings saved successfully!');
-      navigation.navigate('Main'); // Navigate to Home screen
+      console.log('Settings saved successfully.');
+
+      // Navigate to RecommendationLol and pass user settings
+      navigation.navigate('RecommendationLol', {
+        userSettings: { region, rank, mainLanguage, secondaryLanguage, mainRole, secondaryRole },
+      });
     } catch (error) {
       console.error('Error saving League of Legends settings:', error);
       alert('Failed to save settings. Please try again.');
     }
   };
 
+  const skipSettings = () => {
+    // Navigate to RecommendationLol without saving settings
+    navigation.navigate('RecommendationLol', { userSettings: {} });
+  };
+
   return (
     <ImageBackground source={backgroundImage} style={styles.background} resizeMode="cover">
-      <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.container}>
         <Text style={styles.title}>League of Legends Settings</Text>
 
-        {/* Region Picker */}
-        <Text style={styles.label}>Region</Text>
         <View style={styles.pickerContainer}>
+          <Text style={styles.label}>Region</Text>
           <Picker selectedValue={region} onValueChange={(value) => setRegion(value)} style={styles.picker}>
             <Picker.Item label="Select Region" value="" />
             <Picker.Item label="North America" value="NA" />
@@ -56,9 +95,8 @@ const LeagueOfLegendsSettings = () => {
           </Picker>
         </View>
 
-        {/* Rank Picker */}
-        <Text style={styles.label}>Rank</Text>
         <View style={styles.pickerContainer}>
+          <Text style={styles.label}>Rank</Text>
           <Picker selectedValue={rank} onValueChange={(value) => setRank(value)} style={styles.picker}>
             <Picker.Item label="Select Rank" value="" />
             <Picker.Item label="Iron" value="Iron" />
@@ -73,9 +111,8 @@ const LeagueOfLegendsSettings = () => {
           </Picker>
         </View>
 
-        {/* Main Language Picker */}
-        <Text style={styles.label}>Main Language</Text>
         <View style={styles.pickerContainer}>
+          <Text style={styles.label}>Main Language</Text>
           <Picker selectedValue={mainLanguage} onValueChange={(value) => setMainLanguage(value)} style={styles.picker}>
             <Picker.Item label="Select Main Language" value="" />
             <Picker.Item label="English" value="English" />
@@ -86,9 +123,8 @@ const LeagueOfLegendsSettings = () => {
           </Picker>
         </View>
 
-        {/* Secondary Language Picker */}
-        <Text style={styles.label}>Secondary Language</Text>
         <View style={styles.pickerContainer}>
+          <Text style={styles.label}>Secondary Language</Text>
           <Picker selectedValue={secondaryLanguage} onValueChange={(value) => setSecondaryLanguage(value)} style={styles.picker}>
             <Picker.Item label="Select Secondary Language" value="" />
             <Picker.Item label="English" value="English" />
@@ -99,9 +135,8 @@ const LeagueOfLegendsSettings = () => {
           </Picker>
         </View>
 
-        {/* Main Role Picker */}
-        <Text style={styles.label}>Main Role</Text>
         <View style={styles.pickerContainer}>
+          <Text style={styles.label}>Main Role</Text>
           <Picker selectedValue={mainRole} onValueChange={(value) => setMainRole(value)} style={styles.picker}>
             <Picker.Item label="Select Main Role" value="" />
             <Picker.Item label="Top" value="Top" />
@@ -112,9 +147,8 @@ const LeagueOfLegendsSettings = () => {
           </Picker>
         </View>
 
-        {/* Secondary Role Picker */}
-        <Text style={styles.label}>Secondary Role</Text>
         <View style={styles.pickerContainer}>
+          <Text style={styles.label}>Secondary Role</Text>
           <Picker selectedValue={secondaryRole} onValueChange={(value) => setSecondaryRole(value)} style={styles.picker}>
             <Picker.Item label="Select Secondary Role" value="" />
             <Picker.Item label="Top" value="Top" />
@@ -125,24 +159,92 @@ const LeagueOfLegendsSettings = () => {
           </Picker>
         </View>
 
-        {/* Save Button */}
         <TouchableOpacity style={styles.saveButton} onPress={saveSettings}>
           <Text style={styles.saveButtonText}>Save Settings</Text>
         </TouchableOpacity>
-      </ScrollView>
+
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+            <Text style={styles.buttonText}>Back</Text>
+          </TouchableOpacity>
+
+          {hasSubmitted && (
+            <TouchableOpacity style={styles.skipButton} onPress={skipSettings}>
+              <Text style={styles.buttonText}>Skip</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
     </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  background: { flex: 1, resizeMode: 'cover' },
-  container: { padding: 20 },
-  title: { fontSize: 22, color: '#fff', fontWeight: 'bold', marginBottom: 20, textAlign: 'center' },
-  label: { fontSize: 16, color: '#fff', marginBottom: 5 },
-  pickerContainer: { backgroundColor: '#1c1c1c', borderRadius: 8, marginBottom: 15 },
-  picker: { color: '#fff' },
-  saveButton: { backgroundColor: '#007BFF', padding: 15, borderRadius: 8, alignItems: 'center' },
-  saveButtonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
+  background: {
+    flex: 1,
+    resizeMode: 'cover',
+  },
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+  },
+  title: {
+    fontSize: 22,
+    color: '#fff',
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  pickerContainer: {
+    marginBottom: 15,
+  },
+  label: {
+    color: '#fff',
+    marginBottom: 5,
+  },
+  picker: {
+    backgroundColor: '#1c1c1c',
+    color: '#fff',
+    borderRadius: 8,
+  },
+  saveButton: {
+    backgroundColor: '#007BFF',
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  saveButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
+  backButton: {
+    backgroundColor: '#444',
+    padding: 10,
+    borderRadius: 8,
+    flex: 1,
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  skipButton: {
+    backgroundColor: '#FF6347',
+    padding: 10,
+    borderRadius: 8,
+    flex: 1,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
 });
 
 export default LeagueOfLegendsSettings;

@@ -18,6 +18,7 @@ import LeagueOfLegendsSettings from './screens/SelectGameScreens/LeagueOfLegends
 import CS_GOSettings from './screens/SelectGameScreens/CS_GOSettings';
 import ApexLegendsSettings from './screens/SelectGameScreens/ApexLegendsSettings';
 import Dota2Settings from './screens/SelectGameScreens/Dota2Settings';
+import RecommendationLol from './screens/RecommendationScreen/RecommendationLol';
 
 enableScreens();
 const Stack = createNativeStackNavigator();
@@ -76,6 +77,11 @@ export default function App() {
         <Stack.Screen options={{ headerShown: false, title: 'CS:GO Settings' }} name="CS_GOSettings" component={CS_GOSettings} />
         <Stack.Screen options={{ headerShown: false, title: 'Apex Legends Settings' }} name="ApexLegendsSettings" component={ApexLegendsSettings} />
         <Stack.Screen options={{ headerShown: false, title: 'Dota 2 Settings' }} name="Dota2Settings" component={Dota2Settings} />
+
+        {/* {RecommendationsScreen} */}
+        <Stack.Screen options={{ headerShown: false }} name="RecommendationLol" component={RecommendationLol} />
+
+
       </Stack.Navigator>
     </NavigationContainer>
   );
