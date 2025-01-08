@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ImageBackground, FlatList, Linking, Alert } from 'react-native';
 import axios from 'axios';
 import { doc, getDoc } from "firebase/firestore"; // Firestore methods
-import { auth, database } from '../firebase'; // Firebase instances
+import { getAuth } from 'firebase/auth'; // Firebase Auth
+import { db } from '../firebase'; // Firestore instance
 import styles from './ScreenModules/HomeScreen.module.js';
 import titleImage from "../assets/TitleWithNeonEffect.png";
 import backgroundImage from "../assets/BackGroundImage.png";
@@ -13,6 +14,7 @@ const API_URL = 'https://newsapi.org/v2/everything?q=video%20games&sortBy=publis
 
 export default function HomeScreen({ navigation }) {
   const [profilePicture, setProfilePicture] = useState(null);
+  const [userData, setUserData] = useState(null);
   const [news, setNews] = useState([]);
 
   useEffect(() => {
@@ -29,31 +31,37 @@ export default function HomeScreen({ navigation }) {
   }, []);
 
   useEffect(() => {
-    const fetchProfilePicture = async () => {
+    const fetchUserData = async () => {
       try {
-        const userId = auth.currentUser?.uid; // Get the current user's ID
-        if (!userId) {
-          Alert.alert("Error", "User is not authenticated.");
-          return;
-        }
+        const auth = getAuth(); // Get Firebase Auth instance
+        const user = auth.currentUser; // Get the currently logged-in user
 
-        const userDocRef = doc(database, "users", userId);
-        const userDoc = await getDoc(userDocRef);
+        if (user) {
+          const userId = user.uid; // Get the user's unique ID (uid)
 
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          setProfilePicture(userData.profilePicture || null);
+          // Fetch the user document from Firestore
+          const userDocRef = doc(db, "users", userId); // Reference to the user's document
+          const userDocSnap = await getDoc(userDocRef); // Fetch the document
+
+          if (userDocSnap.exists()) {
+            const userData = userDocSnap.data();
+            setUserData(userData); // Set the user data from Firestore
+            setProfilePicture(userData.profilePicture || null); // Set profile picture if available
+          } else {
+            console.error('No such document found!');
+            Alert.alert('Error', 'User data not found.');
+          }
         } else {
-          console.log("No profile picture found, using default.");
-          setProfilePicture(null);
+          console.error('No user is logged in!');
+          Alert.alert('Error', 'You must be logged in to view this screen.');
         }
       } catch (error) {
-        console.error("Error fetching profile picture:", error);
-        setProfilePicture(null);
+        console.error('Error fetching user data:', error);
+        Alert.alert('Error', 'Failed to load user data.');
       }
     };
 
-    fetchProfilePicture();
+    fetchUserData();
   }, []);
 
   return (
