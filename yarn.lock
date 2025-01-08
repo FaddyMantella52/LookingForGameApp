@@ -7441,6 +7441,11 @@ react-native-gesture-handler@~2.16.1:
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
+react-native-image-fallback@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-image-fallback/-/react-native-image-fallback-2.0.2.tgz#59843d5fb540f0e2cd1195fcdcab134001f2e224"
+  integrity sha512-gf3a9h+bkPVihNa2E5Mw0EsBsbwVMv5vhEY1cU4t28UymGW96cDci94qW2RxK0EHQnoxjLhA6zx10WfiixT+AQ==
+
 react-native-linear-gradient@^2.8.3:
   version "2.8.3"
   resolved "https://registry.npmjs.org/react-native-linear-gradient/-/react-native-linear-gradient-2.8.3.tgz"
