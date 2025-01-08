@@ -22,6 +22,7 @@ import RecommendationLol from './screens/RecommendationScreen/RecommendationLol'
 import RecommendationDota2 from './screens/RecommendationScreen/RecommendationDota2';
 import RecommendationApex from './screens/RecommendationScreen/RecommendationApex';
 import RecommendationCSGO from './screens/RecommendationScreen/RecommendationCSGO';
+import NewsScreen from './screens/NewsScreen';
 
 
 enableScreens();
@@ -74,6 +75,9 @@ export default function App() {
 
         {/* Main App */}
         <Stack.Screen options={{ headerShown: false }} name="Main" component={BottomTabNavigator} />
+
+        {/* Home Screens */}
+        <Stack.Screen options={{ headerShown: false }} name="NewsScreen" component={NewsScreen} />
 
         {/* Game Selection Screens */}
         <Stack.Screen options={{ headerShown: false }} name="SelectGameScreen" component={SelectGameScreen} />
