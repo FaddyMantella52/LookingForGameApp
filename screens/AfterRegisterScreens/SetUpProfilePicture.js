@@ -2,35 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, ImageBackground, Alert, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ref, listAll, getDownloadURL } from "firebase/storage"; // Firebase Storage methods
-import { storage } from '../../firebase'; // Firebase Storage instance
+import { doc, setDoc, getDoc } from "firebase/firestore"; // Firestore Database methods
+import { auth, storage, db } from '../../firebase'; // Firebase instances (ensure firestore is initialized)
 import backgroundImage from "../../assets/BackGroundImage.png"; // Background image path
 import styles from './SetUpProfilePicture.module'; // Import your styles
 
 export default function SetUpProfilePictureScreen() {
   const [availableImages, setAvailableImages] = useState([]); // Stores Firebase image URLs
-  const [selectedImage, setSelectedImage] = useState('');
+  const [selectedImage, setSelectedImage] = useState(''); 
   const navigation = useNavigation();
 
   // Fetch images from Firebase Storage
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        // console.log("Fetching images from Firebase Storage...");
         const listRef = ref(storage, 'profilePictures/');
-        // console.log("List reference created:", listRef);
-
         const res = await listAll(listRef);
-        // console.log("List result:", res);
-
-        const urls = await Promise.all(
-          res.items.map((itemRef) => {
-            // console.log("Getting URL for:", itemRef.fullPath);
-            return getDownloadURL(itemRef);
-          })
-        );
-
+        const urls = await Promise.all(res.items.map((itemRef) => getDownloadURL(itemRef)));
         setAvailableImages(urls);
-        // console.log("Fetched URLs:", urls);
       } catch (error) {
         console.error("Error fetching images:", error);
         Alert.alert("Error", error.message); // Display the actual error message
@@ -40,17 +29,52 @@ export default function SetUpProfilePictureScreen() {
     fetchImages();
   }, []);
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (!selectedImage) {
       Alert.alert("No Selection", "Please select a profile picture or skip.");
       return;
     }
 
-    navigation.navigate("Main", { profilePicture: selectedImage });
+    try {
+      const userId = auth.currentUser?.uid; // Get the current user's ID
+      if (!userId) {
+        Alert.alert("Error", "User is not authenticated.");
+        return;
+      }
+      
+      // Fetch the username from Firestore (if already exists)
+      const userDocRef = doc(db, "users", userId);
+      const userDoc = await getDoc(userDocRef);
+      let username = "";
+
+    // If the document exists and contains a 'username' field, use that
+    if (userDoc.exists()) {
+      username = userDoc.data().username || "";
+    }
+
+    // If 'username' is still empty, fallback to 'displayName' or email
+    if (!username) {
+      username = auth.currentUser?.displayName || auth.currentUser?.email.split('@')[0];
+    }
+
+    const email = auth.currentUser?.email; // Get email from the authenticated user
+
+      // Save the profile picture and other user details to Firestore
+      await setDoc(userDocRef, {
+        profilePicture: selectedImage,
+        email: email,
+        username: username
+      }, { merge: true }); // Merging to avoid overwriting existing data
+
+      navigation.navigate("Main");
+    } catch (error) {
+      console.error("Error saving profile picture:", error);
+      Alert.alert("Error", "Could not save the profile picture. Please try again.");
+    }
   };
 
   const handleSkip = () => {
-    navigation.navigate("Main", { profilePicture: null }); // Or use a default image
+    navigation.navigate("Main");
   };
 
   return (
