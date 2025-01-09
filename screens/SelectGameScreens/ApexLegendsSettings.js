@@ -6,7 +6,7 @@ import { getAuth } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import backgroundImage from "../../assets/BackGroundImage.png";
 
-const Dota2Settings = () => {
+const ApexSettings = () => {
   const [region, setRegion] = useState('');
   const [rank, setRank] = useState('');
   const [mainLanguage, setMainLanguage] = useState('');
@@ -24,8 +24,8 @@ const Dota2Settings = () => {
     const checkIfSettingsExist = async () => {
       const userId = auth.currentUser?.uid;
       if (userId) {
-        const dota2SettingsRef = doc(firestore, 'dota2Settings', userId);
-        const docSnap = await getDoc(dota2SettingsRef);
+        const apexSettingsRef = doc(firestore, 'apexSettings', userId);
+        const docSnap = await getDoc(apexSettingsRef);
 
         if (docSnap.exists()) {
           setHasSubmitted(true); // User has already submitted settings
@@ -48,7 +48,7 @@ const Dota2Settings = () => {
       return;
     }
 
-    const dota2SettingsRef = doc(firestore, 'dota2Settings', userId);
+    const apexSettingsRef = doc(firestore, 'apexSettings', userId);
     const data = {
       region,
       rank,
@@ -60,28 +60,28 @@ const Dota2Settings = () => {
 
     try {
       // Save user preferences to Firestore
-      await setDoc(dota2SettingsRef, data, { merge: true });
+      await setDoc(apexSettingsRef, data, { merge: true });
       console.log('Settings saved successfully.');
 
-      // Navigate to RecommendationDota and pass user settings
-      navigation.navigate('RecommendationDota', {
+      // Navigate to RecommendationApex and pass user settings
+      navigation.navigate('RecommendationApex', {
         userSettings: { region, rank, mainLanguage, secondaryLanguage, mainRole, secondaryRole },
       });
     } catch (error) {
-      console.error('Error saving Dota 2 settings:', error);
+      console.error('Error saving Apex Legends settings:', error);
       alert('Failed to save settings. Please try again.');
     }
   };
 
   const skipSettings = () => {
-    // Navigate to RecommendationDota without saving settings
-    navigation.navigate('RecommendationDota', { userSettings: {} });
+    // Navigate to RecommendationApex without saving settings
+    navigation.navigate('RecommendationApex', { userSettings: {} });
   };
 
   return (
     <ImageBackground source={backgroundImage} style={styles.background} resizeMode="cover">
       <View style={styles.container}>
-        <Text style={styles.title}>Dota 2 Settings</Text>
+        <Text style={styles.title}>Apex Legends Settings</Text>
 
         <View style={styles.pickerContainer}>
           <Text style={styles.label}>Region</Text>
@@ -98,14 +98,13 @@ const Dota2Settings = () => {
           <Text style={styles.label}>Rank</Text>
           <Picker selectedValue={rank} onValueChange={(value) => setRank(value)} style={styles.picker}>
             <Picker.Item label="Select Rank" value="" />
-            <Picker.Item label="Herald" value="Herald" />
-            <Picker.Item label="Guardian" value="Guardian" />
-            <Picker.Item label="Crusader" value="Crusader" />
-            <Picker.Item label="Archon" value="Archon" />
-            <Picker.Item label="Legend" value="Legend" />
-            <Picker.Item label="Ancient" value="Ancient" />
-            <Picker.Item label="Divine" value="Divine" />
-            <Picker.Item label="Immortal" value="Immortal" />
+            <Picker.Item label="Bronze" value="Bronze" />
+            <Picker.Item label="Silver" value="Silver" />
+            <Picker.Item label="Gold" value="Gold" />
+            <Picker.Item label="Platinum" value="Platinum" />
+            <Picker.Item label="Diamond" value="Diamond" />
+            <Picker.Item label="Master" value="Master" />
+            <Picker.Item label="Apex Predator" value="Predator" />
           </Picker>
         </View>
 
@@ -115,8 +114,9 @@ const Dota2Settings = () => {
             <Picker.Item label="Select Main Language" value="" />
             <Picker.Item label="English" value="English" />
             <Picker.Item label="Spanish" value="Spanish" />
-            <Picker.Item label="Russian" value="Russian" />
-            <Picker.Item label="Chinese" value="Chinese" />
+            <Picker.Item label="French" value="French" />
+            <Picker.Item label="German" value="German" />
+            <Picker.Item label="Japanese" value="Japanese" />
           </Picker>
         </View>
 
@@ -126,8 +126,9 @@ const Dota2Settings = () => {
             <Picker.Item label="Select Secondary Language" value="" />
             <Picker.Item label="English" value="English" />
             <Picker.Item label="Spanish" value="Spanish" />
-            <Picker.Item label="Russian" value="Russian" />
-            <Picker.Item label="Chinese" value="Chinese" />
+            <Picker.Item label="French" value="French" />
+            <Picker.Item label="German" value="German" />
+            <Picker.Item label="Japanese" value="Japanese" />
           </Picker>
         </View>
 
@@ -135,10 +136,10 @@ const Dota2Settings = () => {
           <Text style={styles.label}>Main Role</Text>
           <Picker selectedValue={mainRole} onValueChange={(value) => setMainRole(value)} style={styles.picker}>
             <Picker.Item label="Select Main Role" value="" />
-            <Picker.Item label="Carry" value="Carry" />
+            <Picker.Item label="Assault" value="Assault" />
             <Picker.Item label="Support" value="Support" />
-            <Picker.Item label="Offlane" value="Offlane" />
-            <Picker.Item label="Mid" value="Mid" />
+            <Picker.Item label="Recon" value="Recon" />
+            <Picker.Item label="Tank" value="Tank" />
           </Picker>
         </View>
 
@@ -146,10 +147,10 @@ const Dota2Settings = () => {
           <Text style={styles.label}>Secondary Role</Text>
           <Picker selectedValue={secondaryRole} onValueChange={(value) => setSecondaryRole(value)} style={styles.picker}>
             <Picker.Item label="Select Secondary Role" value="" />
-            <Picker.Item label="Carry" value="Carry" />
+            <Picker.Item label="Assault" value="Assault" />
             <Picker.Item label="Support" value="Support" />
-            <Picker.Item label="Offlane" value="Offlane" />
-            <Picker.Item label="Mid" value="Mid" />
+            <Picker.Item label="Recon" value="Recon" />
+            <Picker.Item label="Tank" value="Tank" />
           </Picker>
         </View>
 
@@ -241,4 +242,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Dota2Settings;
+export default ApexSettings;

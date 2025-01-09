@@ -10,6 +10,8 @@ const CSGOSettings = () => {
   const [region, setRegion] = useState('');
   const [rank, setRank] = useState('');
   const [mainRole, setMainRole] = useState('');
+  const [mainLanguage, setMainLanguage] = useState('');
+  const [secondaryLanguage, setSecondaryLanguage] = useState('');
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const firestore = getFirestore();
@@ -103,6 +105,30 @@ const CSGOSettings = () => {
             <Picker.Item label="Rifler" value="Rifler" />
           </Picker>
         </View>
+
+        <View style={styles.pickerContainer}>
+                  <Text style={styles.label}>Main Language</Text>
+                  <Picker selectedValue={mainLanguage} onValueChange={(value) => setMainLanguage(value)} style={styles.picker}>
+                    <Picker.Item label="Select Main Language" value="" />
+                    <Picker.Item label="English" value="English" />
+                    <Picker.Item label="Spanish" value="Spanish" />
+                    <Picker.Item label="French" value="French" />
+                    <Picker.Item label="German" value="German" />
+                    <Picker.Item label="Korean" value="Korean" />
+                  </Picker>
+                </View>
+        
+                <View style={styles.pickerContainer}>
+                  <Text style={styles.label}>Secondary Language</Text>
+                  <Picker selectedValue={secondaryLanguage} onValueChange={(value) => setSecondaryLanguage(value)} style={styles.picker}>
+                    <Picker.Item label="Select Secondary Language" value="" />
+                    <Picker.Item label="English" value="English" />
+                    <Picker.Item label="Spanish" value="Spanish" />
+                    <Picker.Item label="French" value="French" />
+                    <Picker.Item label="German" value="German" />
+                    <Picker.Item label="Korean" value="Korean" />
+                  </Picker>
+                </View>
 
         <TouchableOpacity style={styles.saveButton} onPress={saveSettings}>
           <Text style={styles.saveButtonText}>Save Settings</Text>

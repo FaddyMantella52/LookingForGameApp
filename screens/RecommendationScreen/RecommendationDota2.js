@@ -1,26 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, ImageBackground, Image } from 'react-native';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import backgroundImage from "../../assets/BackGroundImage.png"; // Make sure to import the background image
 
 const RecommendationDota = ({ route, navigation }) => {
   const { userSettings } = route.params; // receive the saved user settings from Dota2Settings
   const [matches, setMatches] = useState([]);
-
   const firestore = getFirestore();
   const auth = getAuth();
 
   useEffect(() => {
-    // Fetch all users and compare with current user's settings
     const fetchUsers = async () => {
       try {
         const usersSnapshot = await getDocs(collection(firestore, 'dota2Settings'));
         const allUsers = [];
 
-        usersSnapshot.forEach((doc) => {
-          const user = doc.data();
-          if (doc.id !== auth.currentUser?.uid) {
+        for (const docSnapshot of usersSnapshot.docs) {
+          const user = docSnapshot.data();
+          if (docSnapshot.id !== auth.currentUser?.uid) {
             let score = 0;
 
             // Calculate match score based on user's preferences
@@ -29,15 +27,26 @@ const RecommendationDota = ({ route, navigation }) => {
             if (user.secondaryLanguage === userSettings.secondaryLanguage) score += 3;
             if (user.mainRole === userSettings.mainRole) score += 2;
 
+          // Fetch username and profile picture from the 'users' collection
+            const userDocRef = doc(firestore, 'users', docSnapshot.id);
+            const userDocSnapshot = await getDoc(userDocRef);
+            
+            const username = userDocSnapshot.exists() ? userDocSnapshot.data().username : 'Unknown';
+            const profilePicture = userDocSnapshot.exists() ? userDocSnapshot.data().profilePicture : 'defaultProfilePicUrl'; // Add a fallback profile picture
+            
+
             allUsers.push({
-              id: doc.id,
-              ...user,
+              id: docSnapshot.id,
+              username,
+              profilePicture,
               score,
-              username: user.username, // Assuming username is in the user data
-              profilePictureUrl: user.profilePictureUrl, // Assuming profile picture URL is in the user data
-            });
-          }
-        });
+              region: user.region,
+              mainLanguage: user.mainLanguage,
+              secondaryLanguage: user.secondaryLanguage,
+              mainRole: user.mainRole,
+          });
+        }
+      }
 
         // Sort users by score in descending order
         allUsers.sort((a, b) => b.score - a.score);
@@ -59,18 +68,21 @@ const RecommendationDota = ({ route, navigation }) => {
           data={matches}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={styles.card}>
+            <TouchableOpacity
+              style={styles.card}
+              onPress={() => navigation.navigate('ChatScreen', { userId: item.id, username: item.username })}
+            >
               <View style={styles.profileContainer}>
-                <Image source={{ uri: item.profilePictureUrl }} style={styles.profilePicture} />
+                <Image source={{ uri: item.profilePicture }} style={styles.profilePicture} />
                 <Text style={styles.username}>{item.username}</Text>
               </View>
               <View style={styles.infoContainer}>
                 <Text style={styles.text}>Region: {item.region}</Text>
                 <Text style={styles.text}>Language: {item.mainLanguage}</Text>
                 <Text style={styles.text}>Role: {item.mainRole}</Text>
-                <Text style={styles.text}>Score: {item.score}</Text>
+                {/* <Text style={styles.text}>Score: {item.score}</Text> */}
               </View>
-            </View>
+              </TouchableOpacity>
           )}
         />
         <TouchableOpacity
