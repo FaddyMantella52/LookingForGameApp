@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, ImageBackground, Image } from 'react-native';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import backgroundImage from "../../assets/BackGroundImage.png";
 
 const RecommendationCSGO = ({ route, navigation }) => {
   const { userSettings } = route.params;
   const [matches, setMatches] = useState([]);
-
   const firestore = getFirestore();
   const auth = getAuth();
 
@@ -17,24 +16,38 @@ const RecommendationCSGO = ({ route, navigation }) => {
         const usersSnapshot = await getDocs(collection(firestore, 'csgoSettings'));
         const allUsers = [];
 
-        usersSnapshot.forEach((doc) => {
-          const user = doc.data();
-          if (doc.id !== auth.currentUser?.uid) {
+        for (const docSnapshot of usersSnapshot.docs) {
+          const user = docSnapshot.data();
+          if (docSnapshot.id !== auth.currentUser?.uid) {
             let score = 0;
+
 
             if (user.region === userSettings.region) score += 5;
             if (user.rank === userSettings.rank) score += 5;
+            if (user.mainLanguage === userSettings.mainLanguage) score += 5;
+            if (user.secondaryLanguage === userSettings.secondaryLanguage) score += 3;
             if (user.mainRole === userSettings.mainRole) score += 3;
 
+            // Fetch username and profile picture from the 'users' collection
+            const userDocRef = doc(firestore, 'users', docSnapshot.id);
+            const userDocSnapshot = await getDoc(userDocRef);
+            
+            const username = userDocSnapshot.exists() ? userDocSnapshot.data().username : 'Unknown';
+            const profilePicture = userDocSnapshot.exists() ? userDocSnapshot.data().profilePicture : 'defaultProfilePicUrl'; // Add a fallback profile picture
+
             allUsers.push({
-              id: doc.id,
-              ...user,
+              id: docSnapshot.id,
+              username,
+              profilePicture,
               score,
-              username: user.username,
-              profilePictureUrl: user.profilePictureUrl,
+              region: user.region,
+              mainLanguage: user.mainLanguage,
+              secondaryLanguage: user.secondaryLanguage,
+              mainRole: user.mainRole,
+              rank: user.rank,
             });
           }
-        });
+        };
 
         allUsers.sort((a, b) => b.score - a.score);
         setMatches(allUsers);
@@ -48,35 +61,39 @@ const RecommendationCSGO = ({ route, navigation }) => {
   }, [userSettings]);
 
   return (
-    <ImageBackground source={backgroundImage} style={styles.background} resizeMode="cover">
-      <View style={styles.container}>
-        <Text style={styles.title}>Recommended Players</Text>
-        <FlatList
-          data={matches}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.card}>
-              <View style={styles.profileContainer}>
-                <Image source={{ uri: item.profilePictureUrl }} style={styles.profilePicture} />
-                <Text style={styles.username}>{item.username}</Text>
-              </View>
-              <View style={styles.infoContainer}>
-                <Text style={styles.text}>Region: {item.region}</Text>
-                <Text style={styles.text}>Rank: {item.rank}</Text>
-                <Text style={styles.text}>Role: {item.mainRole}</Text>
-                <Text style={styles.text}>Score: {item.score}</Text>
-              </View>
-            </View>
-          )}
-        />
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.navigate("Main")}
-        >
-          <Text style={styles.backButtonText}>Back</Text>
-        </TouchableOpacity>
-      </View>
-    </ImageBackground>
+     <ImageBackground source={backgroundImage} style={styles.background} resizeMode="cover">
+          <View style={styles.container}>
+            <Text style={styles.title}>Recommended Players</Text>
+            <FlatList
+              data={matches}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.card}
+                  onPress={() => navigation.navigate('ChatScreen', { userId: item.id, username: item.username })}
+                >
+                  <View style={styles.profileContainer}>
+                    <Image source={{ uri: item.profilePicture }} style={styles.profilePicture} />
+                    <Text style={styles.username}>{item.username}</Text>
+                  </View>
+                  <View style={styles.infoContainer}>
+                    <Text style={styles.text}>Region: {item.region}</Text>
+                    <Text style={styles.text}>Language: {item.mainLanguage}</Text>
+                    <Text style={styles.text}>Main Role: {item.mainRole}</Text>
+                    <Text style={styles.text}>Rank : {item.rank}</Text>
+                    {/* <Text style={styles.text}>Score: {item.score}</Text> */}
+                  </View>
+                </TouchableOpacity>
+              )}
+            />
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.navigate("Main")}
+            >
+              <Text style={styles.backButtonText}>Back</Text>
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
   );
 };
 
