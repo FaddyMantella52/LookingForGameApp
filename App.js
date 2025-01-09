@@ -23,6 +23,7 @@ import RecommendationDota2 from './screens/RecommendationScreen/RecommendationDo
 import RecommendationApex from './screens/RecommendationScreen/RecommendationApex';
 import RecommendationCSGO from './screens/RecommendationScreen/RecommendationCSGO';
 import NewsScreen from './screens/NewsScreen';
+import ChatScreen from './screens/Chat/ChatScreen';
 
 
 enableScreens();
@@ -78,6 +79,9 @@ export default function App() {
 
         {/* Home Screens */}
         <Stack.Screen options={{ headerShown: false }} name="NewsScreen" component={NewsScreen} />
+
+        {/* Chat Screens */}
+        <Stack.Screen options={{ headerShown: false }} name="ChatScreen" component={ChatScreen} />
 
         {/* Game Selection Screens */}
         <Stack.Screen options={{ headerShown: false }} name="SelectGameScreen" component={SelectGameScreen} />
