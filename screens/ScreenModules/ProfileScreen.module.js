@@ -18,6 +18,7 @@ export default StyleSheet.create({
     height: 120,
     borderRadius: 60,
     marginBottom: 20,
+    backgroundColor: '#fff',
   },
   username: {
     fontSize: 24,

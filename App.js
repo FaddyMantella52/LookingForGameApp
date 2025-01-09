@@ -8,6 +8,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import RegisterScreen from './screens/RegisterScreen';
 import LogInScreen from './screens/LogInScreen';
 import HomeScreen from './screens/HomeScreen';
+import EditProfileScreen from './screens/EditProfileScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import SetUpProfilePicture from './screens/AfterRegisterScreens/SetUpProfilePicture';
 import LinkAccountsScreen from './screens/AfterRegisterScreens/LinkAccountsScreen';
@@ -95,6 +96,9 @@ export default function App() {
         <Stack.Screen options={{ headerShown: false }} name="RecommendationDota2" component={RecommendationDota2} />
         <Stack.Screen options={{ headerShown: false }} name="RecommendationCSGO" component={RecommendationCSGO} />
         <Stack.Screen options={{ headerShown: false }} name="RecommendationApex" component={RecommendationApex} />
+
+        {/* {RecommendationsScreen} */}
+        <Stack.Screen options={{ headerShown: false }} name="EditProfile" component={EditProfileScreen} />
 
       </Stack.Navigator>
     </NavigationContainer>
