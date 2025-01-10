@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, FlatList, Button, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
 import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
+import Icon from 'react-native-vector-icons/MaterialIcons';  // Importing the icon library
 import backgroundImage from '../../assets/BackGroundImage.png';
 
 const ChatScreen = ({ route, navigation }) => {
-  const { userId, username } = route.params;  // Access username from the route parameters
+  const { userId, username } = route.params;
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const firestore = getFirestore();
@@ -38,7 +39,6 @@ const ChatScreen = ({ route, navigation }) => {
   return (
     <ImageBackground source={backgroundImage} style={styles.background}>
       <View style={styles.container}>
-        {/* Dynamically display the username of the user you're chatting with */}
         <Text style={styles.header}>Chat with {username}</Text>
 
         <FlatList
@@ -59,6 +59,7 @@ const ChatScreen = ({ route, navigation }) => {
           )}
         />
 
+        {/* Input and Send Button Container */}
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
@@ -69,12 +70,12 @@ const ChatScreen = ({ route, navigation }) => {
           />
           <Button title="Send" onPress={sendMessage} />
         </View>
-      </View>
 
-      {/* Back Button at the Bottom */}
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Text style={styles.backButtonText}>← Back</Text>
-      </TouchableOpacity>
+        {/* Back Arrow Icon */}
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+          <Icon name="arrow-back" size={30} color="#fff" />
+        </TouchableOpacity>
+      </View>
     </ImageBackground>
   );
 };
@@ -108,8 +109,7 @@ const styles = StyleSheet.create({
   },
   theirMessage: {
     alignSelf: 'flex-start',
-    backgroundColor: '##444',
-    
+    backgroundColor: '#444',
   },
   messageText: {
     color: '#fff',
@@ -124,30 +124,23 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 20,  // Moved up
   },
   input: {
     flex: 1,
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 20,
+    borderRadius: 50,
     padding: 10,
-    marginRight: 10,
+    marginLeft: 25,
     color: '#fff',
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
   },
   backButton: {
     position: 'absolute',
-    bottom: 30,
-    left: 20,
-    padding: 10,
-    backgroundColor: '#007BFF',
-    borderRadius: 5,
-  },
-  backButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
+    bottom: 13,  // Moved down
+    left: 0,
+    padding: 5,
   },
 });
 

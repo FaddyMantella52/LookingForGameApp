@@ -25,6 +25,7 @@ import RecommendationApex from './screens/RecommendationScreen/RecommendationApe
 import RecommendationCSGO from './screens/RecommendationScreen/RecommendationCSGO';
 import NewsScreen from './screens/NewsScreen';
 import ChatScreen from './screens/Chat/ChatScreen';
+import ChatSelectionScreen from './screens/Chat/ChatSelectionScreen';
 
 
 enableScreens();
@@ -44,8 +45,10 @@ const BottomTabNavigator = () => {
             iconName = focused ? 'person' : 'person-outline';
           } else if (route.name === 'Search') {
             iconName = focused ? 'search' : 'search-outline';
-          }
-
+          } else if (route.name === 'Chat') {
+            iconName = focused ? 'chatbubble' : 'chatbubble-outline';
+          }  
+          
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: '#fff',
@@ -57,6 +60,7 @@ const BottomTabNavigator = () => {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
       <Tab.Screen name="Search" component={SelectGameScreen} />
+      <Tab.Screen name="Chat" component={ChatSelectionScreen} />
     </Tab.Navigator>
   );
 };
@@ -83,6 +87,8 @@ export default function App() {
 
         {/* Chat Screens */}
         <Stack.Screen options={{ headerShown: false }} name="ChatScreen" component={ChatScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="ChatSelectionScreen" component={ChatSelectionScreen} />
+        
 
         {/* Game Selection Screens */}
         <Stack.Screen options={{ headerShown: false }} name="SelectGameScreen" component={SelectGameScreen} />

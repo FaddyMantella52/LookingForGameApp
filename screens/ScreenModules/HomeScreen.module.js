@@ -21,8 +21,8 @@ export default StyleSheet.create({
   },
 
   titleImage: {
-    width: 180, // Adjust width to your preference
-    height: 119, // Adjust height proportionally to your image
+    width: 180, 
+    height: 119, 
     marginBottom: 0,
     resizeMode: 'cover',
     marginHorizontal: 32,
@@ -80,11 +80,11 @@ export default StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  // News Section Styles
+
   newsContainer: {
     marginTop: 20,
     padding: 10,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)', // Add background for better readability
+    backgroundColor: 'rgba(0, 0, 0, 0.6)', 
     borderRadius: 10,
     alignItems: 'center',
   },
@@ -112,15 +112,13 @@ export default StyleSheet.create({
     marginBottom: 5,
   },
 
-  readMore: {
-    color: '#fff', // Updated to white
-    fontSize: 12,
-    textDecorationLine: 'underline',
-    marginTop: 5,
-  },
+    seeAllNews: {
+      color: '#ADD8E6', 
+      fontSize: 14, 
+    },
 
-  seeMoreNews: {
-    color: '#fff', // Ensure "See more news" is white
+  newsBoxTitle: {
+    color: '#fff', 
     fontSize: 14,
     fontWeight: 'bold',
     textDecorationLine: 'underline',

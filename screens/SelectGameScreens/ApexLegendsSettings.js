@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: '#fff',
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 100,
     textAlign: 'center',
   },
   pickerContainer: {
