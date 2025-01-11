@@ -6,6 +6,7 @@ import { db } from '../firebase'; // Firestore instance
 import { updatePassword } from 'firebase/auth';
 import backgroundImage from "../assets/BackGroundImage.png";
 import styles from './ScreenModules/EditProfileScreen.module.js'; // Use a modular stylesheet
+import SetUpProfilePictureScreen from './AfterRegisterScreens/SetUpProfilePicture';
 
 export default function EditProfile({ route, navigation }) {
   const { userData } = route.params; // Passed from ProfileScreen
@@ -83,6 +84,10 @@ export default function EditProfile({ route, navigation }) {
           placeholder="Confirm new password"
           secureTextEntry
         />
+
+        <TouchableOpacity style={styles.changePictureButton} onPress={() => navigation.navigate("SetUpProfilePicture")}>
+          <Text style={styles.saveButtonText}>Change Profile Picture</Text>
+        </TouchableOpacity>
 
         <TouchableOpacity style={styles.saveButton} onPress={handleSaveChanges}>
           <Text style={styles.saveButtonText}>Save Changes</Text>
