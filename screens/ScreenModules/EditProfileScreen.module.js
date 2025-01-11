@@ -56,4 +56,11 @@ export default StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  changePictureButton: {
+    backgroundColor: '#0000FF',
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 16,
+  },
 });

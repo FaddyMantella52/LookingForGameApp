@@ -125,4 +125,14 @@ export default StyleSheet.create({
     marginTop: 10,
     textAlign: 'center',
   },
+  logoutButton: {
+    padding: 10,
+    backgroundColor: '#FF5733', // A bright color for the button
+    borderRadius: 5,
+  },
+  logoutText: {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });

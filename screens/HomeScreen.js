@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ImageBackground, FlatList, Linking, Alert } from 'react-native';
 import axios from 'axios';
 import { doc, getDoc } from "firebase/firestore"; // Firestore methods
-import { getAuth } from 'firebase/auth'; // Firebase Auth
+import { getAuth, signOut } from 'firebase/auth'; // Firebase Auth
 import { db } from '../firebase'; // Firestore instance
 import styles from './ScreenModules/HomeScreen.module.js';
 import titleImage from "../assets/TitleWithNeonEffect.png";
@@ -16,6 +16,18 @@ export default function HomeScreen({ navigation }) {
   const [profilePicture, setProfilePicture] = useState(null);
   const [userData, setUserData] = useState(null);
   const [news, setNews] = useState([]);
+
+  const handleLogout = async () => {
+    const auth = getAuth();
+    try {
+      await signOut(auth); // Sign out the user
+      Alert.alert('Success', 'You have been logged out.');
+      navigation.replace('LogInScreen'); // Navigate to the login screen
+    } catch (error) {
+      console.error('Error logging out:', error);
+      Alert.alert('Error', 'Failed to log out.');
+    }
+  };
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -68,12 +80,13 @@ export default function HomeScreen({ navigation }) {
     <ImageBackground source={backgroundImage} style={styles.background}>
       <View style={styles.container}>
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.navigate("SetUpProfilePictureScreen")} style={styles.menuButtonProfile}>
+          <TouchableOpacity onPress={() => navigation.navigate("SetUpProfilePicture")} style={styles.menuButtonProfile}>
             <Image source={profilePicture ? { uri: profilePicture } : defaultImage} style={styles.profileImage} />
           </TouchableOpacity>
           <Image source={titleImage} style={styles.titleImage} />
-          <TouchableOpacity style={styles.menuButton}>
-            <Text style={styles.menuText}>☰</Text>
+          {/* Logout Button */}
+          <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
+            <Text style={styles.logoutText}>Log Out</Text>
           </TouchableOpacity>
         </View>
 
