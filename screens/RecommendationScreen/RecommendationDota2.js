@@ -23,9 +23,10 @@ const RecommendationDota = ({ route, navigation }) => {
 
             // Calculate match score based on user's preferences
             if (user.region === userSettings.region) score += 5;
+            if (user.rank === userSettings.rank) score += 5;
             if (user.mainLanguage === userSettings.mainLanguage) score += 5;
             if (user.secondaryLanguage === userSettings.secondaryLanguage) score += 3;
-            if (user.mainRole === userSettings.mainRole) score += 2;
+            if (user.mainRole === userSettings.mainRole) score -= 2;
 
           // Fetch username and profile picture from the 'users' collection
             const userDocRef = doc(firestore, 'users', docSnapshot.id);
@@ -41,6 +42,7 @@ const RecommendationDota = ({ route, navigation }) => {
               profilePicture,
               score,
               region: user.region,
+              rank: user.rank,
               mainLanguage: user.mainLanguage,
               secondaryLanguage: user.secondaryLanguage,
               mainRole: user.mainRole,

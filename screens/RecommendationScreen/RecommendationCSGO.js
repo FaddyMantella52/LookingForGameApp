@@ -26,7 +26,7 @@ const RecommendationCSGO = ({ route, navigation }) => {
             if (user.rank === userSettings.rank) score += 5;
             if (user.mainLanguage === userSettings.mainLanguage) score += 5;
             if (user.secondaryLanguage === userSettings.secondaryLanguage) score += 3;
-            if (user.mainRole === userSettings.mainRole) score += 3;
+            if (user.mainRole === userSettings.mainRole) score -= 3;
 
             // Fetch username and profile picture from the 'users' collection
             const userDocRef = doc(firestore, 'users', docSnapshot.id);
