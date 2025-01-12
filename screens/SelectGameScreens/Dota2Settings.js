@@ -181,13 +181,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    justifyContent: 'space-around',
   },
   title: {
     fontSize: 22,
     color: '#fff',
     fontWeight: 'bold',
-    marginBottom: 100,
+    marginTop: 20,
+    marginBottom: 20,
     textAlign: 'center',
   },
   pickerContainer: {
@@ -205,6 +207,7 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     backgroundColor: '#007BFF',
+    opacity: 0.85,
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',
@@ -222,6 +225,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     backgroundColor: '#444',
+    opacity: 0.85,
     padding: 10,
     borderRadius: 8,
     flex: 1,
@@ -230,6 +234,7 @@ const styles = StyleSheet.create({
   },
   skipButton: {
     backgroundColor: '#FF6347',
+    opacity: 0.85,
     padding: 10,
     borderRadius: 8,
     flex: 1,
