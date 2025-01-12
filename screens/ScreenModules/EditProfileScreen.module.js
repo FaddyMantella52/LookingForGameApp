@@ -37,6 +37,7 @@ export default StyleSheet.create({
   },
   saveButton: {
     backgroundColor: '#4CAF50',
+    opacity: 0.85,
     padding: 12,
     borderRadius: 8,
     alignItems: 'center',
@@ -49,6 +50,7 @@ export default StyleSheet.create({
   },
   cancelButton: {
     backgroundColor: '#f44336',
+    opacity: 0.85,
     padding: 12,
     borderRadius: 8,
     alignItems: 'center',
@@ -60,6 +62,7 @@ export default StyleSheet.create({
   },
   changePictureButton: {
     backgroundColor: '#0000FF',
+    opacity: 0.85,
     padding: 12,
     borderRadius: 8,
     alignItems: 'center',
