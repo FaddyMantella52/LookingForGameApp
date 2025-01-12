@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, Alert, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
@@ -80,96 +80,98 @@ const ApexSettings = () => {
 
   return (
     <ImageBackground source={backgroundImage} style={styles.background} resizeMode="cover">
-      <View style={styles.container}>
-        <Text style={styles.title}>Apex Legends Settings</Text>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.container}>
+          <Text style={styles.title}>Apex Legends Settings</Text>
 
-        <View style={styles.pickerContainer}>
-          <Text style={styles.label}>Region</Text>
-          <Picker selectedValue={region} onValueChange={(value) => setRegion(value)} style={styles.picker}>
-            <Picker.Item label="Select Region" value="" />
-            <Picker.Item label="North America" value="NA" />
-            <Picker.Item label="Europe" value="EU" />
-            <Picker.Item label="Asia" value="AS" />
-            <Picker.Item label="Oceania" value="OC" />
-          </Picker>
-        </View>
+          <View style={styles.pickerContainer}>
+            <Text style={styles.label}>Region</Text>
+            <Picker selectedValue={region} onValueChange={(value) => setRegion(value)} style={styles.picker}>
+              <Picker.Item label="Select Region" value="" />
+              <Picker.Item label="North America" value="NA" />
+              <Picker.Item label="Europe" value="EU" />
+              <Picker.Item label="Asia" value="AS" />
+              <Picker.Item label="Oceania" value="OC" />
+            </Picker>
+          </View>
 
-        <View style={styles.pickerContainer}>
-          <Text style={styles.label}>Rank</Text>
-          <Picker selectedValue={rank} onValueChange={(value) => setRank(value)} style={styles.picker}>
-            <Picker.Item label="Select Rank" value="" />
-            <Picker.Item label="Bronze" value="Bronze" />
-            <Picker.Item label="Silver" value="Silver" />
-            <Picker.Item label="Gold" value="Gold" />
-            <Picker.Item label="Platinum" value="Platinum" />
-            <Picker.Item label="Diamond" value="Diamond" />
-            <Picker.Item label="Master" value="Master" />
-            <Picker.Item label="Apex Predator" value="Predator" />
-          </Picker>
-        </View>
+          <View style={styles.pickerContainer}>
+            <Text style={styles.label}>Rank</Text>
+            <Picker selectedValue={rank} onValueChange={(value) => setRank(value)} style={styles.picker}>
+              <Picker.Item label="Select Rank" value="" />
+              <Picker.Item label="Bronze" value="Bronze" />
+              <Picker.Item label="Silver" value="Silver" />
+              <Picker.Item label="Gold" value="Gold" />
+              <Picker.Item label="Platinum" value="Platinum" />
+              <Picker.Item label="Diamond" value="Diamond" />
+              <Picker.Item label="Master" value="Master" />
+              <Picker.Item label="Apex Predator" value="Predator" />
+            </Picker>
+          </View>
 
-        <View style={styles.pickerContainer}>
-          <Text style={styles.label}>Main Language</Text>
-          <Picker selectedValue={mainLanguage} onValueChange={(value) => setMainLanguage(value)} style={styles.picker}>
-            <Picker.Item label="Select Main Language" value="" />
-            <Picker.Item label="English" value="English" />
-            <Picker.Item label="Spanish" value="Spanish" />
-            <Picker.Item label="French" value="French" />
-            <Picker.Item label="German" value="German" />
-            <Picker.Item label="Japanese" value="Japanese" />
-          </Picker>
-        </View>
+          <View style={styles.pickerContainer}>
+            <Text style={styles.label}>Main Language</Text>
+            <Picker selectedValue={mainLanguage} onValueChange={(value) => setMainLanguage(value)} style={styles.picker}>
+              <Picker.Item label="Select Main Language" value="" />
+              <Picker.Item label="English" value="English" />
+              <Picker.Item label="Spanish" value="Spanish" />
+              <Picker.Item label="French" value="French" />
+              <Picker.Item label="German" value="German" />
+              <Picker.Item label="Japanese" value="Japanese" />
+            </Picker>
+          </View>
 
-        <View style={styles.pickerContainer}>
-          <Text style={styles.label}>Secondary Language</Text>
-          <Picker selectedValue={secondaryLanguage} onValueChange={(value) => setSecondaryLanguage(value)} style={styles.picker}>
-            <Picker.Item label="Select Secondary Language" value="" />
-            <Picker.Item label="English" value="English" />
-            <Picker.Item label="Spanish" value="Spanish" />
-            <Picker.Item label="French" value="French" />
-            <Picker.Item label="German" value="German" />
-            <Picker.Item label="Japanese" value="Japanese" />
-          </Picker>
-        </View>
+          <View style={styles.pickerContainer}>
+            <Text style={styles.label}>Secondary Language</Text>
+            <Picker selectedValue={secondaryLanguage} onValueChange={(value) => setSecondaryLanguage(value)} style={styles.picker}>
+              <Picker.Item label="Select Secondary Language" value="" />
+              <Picker.Item label="English" value="English" />
+              <Picker.Item label="Spanish" value="Spanish" />
+              <Picker.Item label="French" value="French" />
+              <Picker.Item label="German" value="German" />
+              <Picker.Item label="Japanese" value="Japanese" />
+            </Picker>
+          </View>
 
-        <View style={styles.pickerContainer}>
-          <Text style={styles.label}>Main Role</Text>
-          <Picker selectedValue={mainRole} onValueChange={(value) => setMainRole(value)} style={styles.picker}>
-            <Picker.Item label="Select Main Role" value="" />
-            <Picker.Item label="Assault" value="Assault" />
-            <Picker.Item label="Support" value="Support" />
-            <Picker.Item label="Recon" value="Recon" />
-            <Picker.Item label="Tank" value="Tank" />
-          </Picker>
-        </View>
+          <View style={styles.pickerContainer}>
+            <Text style={styles.label}>Main Role</Text>
+            <Picker selectedValue={mainRole} onValueChange={(value) => setMainRole(value)} style={styles.picker}>
+              <Picker.Item label="Select Main Role" value="" />
+              <Picker.Item label="Assault" value="Assault" />
+              <Picker.Item label="Support" value="Support" />
+              <Picker.Item label="Recon" value="Recon" />
+              <Picker.Item label="Tank" value="Tank" />
+            </Picker>
+          </View>
 
-        <View style={styles.pickerContainer}>
-          <Text style={styles.label}>Secondary Role</Text>
-          <Picker selectedValue={secondaryRole} onValueChange={(value) => setSecondaryRole(value)} style={styles.picker}>
-            <Picker.Item label="Select Secondary Role" value="" />
-            <Picker.Item label="Assault" value="Assault" />
-            <Picker.Item label="Support" value="Support" />
-            <Picker.Item label="Recon" value="Recon" />
-            <Picker.Item label="Tank" value="Tank" />
-          </Picker>
-        </View>
+          <View style={styles.pickerContainer}>
+            <Text style={styles.label}>Secondary Role</Text>
+            <Picker selectedValue={secondaryRole} onValueChange={(value) => setSecondaryRole(value)} style={styles.picker}>
+              <Picker.Item label="Select Secondary Role" value="" />
+              <Picker.Item label="Assault" value="Assault" />
+              <Picker.Item label="Support" value="Support" />
+              <Picker.Item label="Recon" value="Recon" />
+              <Picker.Item label="Tank" value="Tank" />
+            </Picker>
+          </View>
 
-        <TouchableOpacity style={styles.saveButton} onPress={saveSettings}>
-          <Text style={styles.saveButtonText}>Save Settings</Text>
-        </TouchableOpacity>
-
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-            <Text style={styles.buttonText}>Back</Text>
+          <TouchableOpacity style={styles.saveButton} onPress={saveSettings}>
+            <Text style={styles.saveButtonText}>Save Settings</Text>
           </TouchableOpacity>
 
-          {hasSubmitted && (
-            <TouchableOpacity style={styles.skipButton} onPress={skipSettings}>
-              <Text style={styles.buttonText}>Skip</Text>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+              <Text style={styles.buttonText}>Back</Text>
             </TouchableOpacity>
-          )}
+
+            {hasSubmitted && (
+              <TouchableOpacity style={styles.skipButton} onPress={skipSettings}>
+                <Text style={styles.buttonText}>Skip</Text>
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </ImageBackground>
   );
 };
@@ -184,6 +186,11 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
   },
+
+  scrollContainer: {
+    paddingBottom: 20,
+  },
+
   title: {
     fontSize: 22,
     color: '#fff',
@@ -192,7 +199,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   pickerContainer: {
-    marginBottom: 15,
+    marginBottom: 20,
   },
   label: {
     color: '#fff',

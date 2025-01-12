@@ -4,6 +4,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    justifyContent: 'space-between',
   },
 
   background: {
@@ -25,7 +26,7 @@ export default StyleSheet.create({
     height: 119, 
     marginBottom: 0,
     resizeMode: 'cover',
-    marginHorizontal: 32,
+    marginHorizontal: 15,
   },
 
   menuButtonProfile: {
@@ -56,22 +57,18 @@ export default StyleSheet.create({
   },
 
   buttonsContainer: {
-    flexDirection: 'row',
-    marginTop: 30,
-    marginHorizontal: -10,
-    flex: 1,
-    alignContent: 'center',
+    marginTop: 20,
+    padding: 10,
+    borderRadius: 10,
+    alignItems: 'center',
   },
 
   button: {
-    width: 150,
-    height: 100,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    padding: 10,
-    borderRadius: 10,
-    marginBottom: 15,
-    marginHorizontal: 10,
+    backgroundColor: 'rgba(28, 28, 28, 0.8)',
+    padding: 8,
+    borderRadius: 8,
     alignItems: 'center',
+    marginVertical: 5,
   },
 
   buttonText: {
@@ -84,7 +81,6 @@ export default StyleSheet.create({
   newsContainer: {
     marginTop: 20,
     padding: 10,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)', 
     borderRadius: 10,
     alignItems: 'center',
   },
@@ -98,7 +94,7 @@ export default StyleSheet.create({
   },
 
   newsCard: {
-    backgroundColor: '#1c1c1c',
+    backgroundColor: 'rgba(28, 28, 28, 0.8)',
     padding: 8,
     borderRadius: 8,
     alignItems: 'center',

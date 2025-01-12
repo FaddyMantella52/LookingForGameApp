@@ -55,12 +55,14 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'space-between',
   },
   header: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#fff',
-    marginBottom: 10,
+    marginBottom: 20,
+    marginTop: 20,
     textAlign: 'center',
   },
   chatItem: {
