@@ -1,26 +1,28 @@
 import { StyleSheet } from 'react-native';
+import { Header } from 'react-native/Libraries/NewAppScreen';
 
 export default StyleSheet.create({
   background: {
     flex: 1,
     resizeMode: 'cover',
   },
+
   container: {
     flex: 1,
     padding: 24,
     justifyContent: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Semi-transparent background
+    //backgroundColor: 'rgba(255, 255, 255, 0.8)', // Semi-transparent background
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: 'rgba(255, 255, 255, 0.8)',
     textAlign: 'center',
     marginBottom: 20,
   },
   label: {
     fontSize: 16,
-    color: '#555',
+    color: 'rgba(255, 255, 255, 0.8)',
     marginBottom: 8,
   },
   input: {
@@ -31,7 +33,7 @@ export default StyleSheet.create({
     paddingHorizontal: 12,
     marginBottom: 16,
     fontSize: 16,
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
   },
   saveButton: {
     backgroundColor: '#4CAF50',
