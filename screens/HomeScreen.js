@@ -21,7 +21,7 @@ export default function HomeScreen({ navigation }) {
     const auth = getAuth();
     try {
       await signOut(auth); // Sign out the user
-      Alert.alert('Success', 'You have been logged out.');
+      //Alert.alert('Success', 'You have been logged out.');
       navigation.replace('LogInScreen'); // Navigate to the login screen
     } catch (error) {
       console.error('Error logging out:', error);

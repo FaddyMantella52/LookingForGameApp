@@ -22,8 +22,8 @@ export default function LoginScreen({ navigation }) {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        Alert.alert("Success", "Welcome back!");
-        navigation.navigate("SetUpProfilePicture");
+        //Alert.alert("Success", "Welcome back!");
+        navigation.navigate("Main");
       })
       .catch((error) => {
         const errorCode = error.code;
